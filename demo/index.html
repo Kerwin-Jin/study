@@ -11,39 +11,18 @@
 	
 </body>
 <script>
-	a=1
-	function test(e){
-		function e(){}
-		arguments[0]=2
-		console.log(e)
-		if(a){
-			var b=3
-		}
-		
-		var c
-		a=4
-		var a
-		console.log(b)
-		f=5
-		console.log(c)
-		console.log(a)
-	}
+	Promise.resolve().then(function(){
+		console.log('promise1')
+		setTimeout(()=>{
+			console.log('setTimeout2')
+		},0)
+	})
 	
-	var a
-	test(1)
-	
-	
-	// GO={
-	// a:undefined
-	// test:undefined>function
-	// }
-	
-	// AO = {
-	// e:undefined>1>function(){}>2
-	// c:undefined
-	// b:undefined
-	// a:undefined>4
-	// f:undefined
-	// }
+	setTimeout(()=>{
+		console.log('setTimeout1')
+		Promise.resolve().then(function(){
+			console.log('promise2')
+		})
+	},0)
 </script>
 </html>
