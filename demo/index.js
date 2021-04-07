@@ -1,18 +1,20 @@
-function* test(){
-	yield(1);
-	yield(2);
-	yield(3);
-	yield(4);
-}
+let p1 = new Promise((resolve,reject)=>{
+	setTimeout(()=>{
+		reject("p1")
+	},1000)
+})
+let p2 = new Promise((resolve,reject)=>{
+	setTimeout(()=>{
+		resolve("p2")
+	},2000)
+})
+let p3 = new Promise((resolve,reject)=>{
+	setTimeout(()=>{
+		resolve("p3")
+	},3000)
+})
 
-var iter = test()
-// console.log(iter)
-// console.log(iter.next())
-// console.log(iter.next())
-// console.log(iter.next())
-// console.log(iter.next())
-// console.log(iter.next())
-
-for(var i of iter){
-	console.log(i)
-}
+let p4 = Promise.race([p1,p2,p3])
+p4.then(res=>{
+	console.log(res)
+})
