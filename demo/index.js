@@ -1,20 +1,10 @@
-let p1 = new Promise((resolve,reject)=>{
-	setTimeout(()=>{
-		reject("p1")
-	},1000)
+Vue.component("hello",{
+	template:`<button>按钮</button>`
 })
-let p2 = new Promise((resolve,reject)=>{
-	setTimeout(()=>{
-		resolve("p2")
-	},2000)
-})
-let p3 = new Promise((resolve,reject)=>{
-	setTimeout(()=>{
-		resolve("p3")
-	},3000)
-})
-
-let p4 = Promise.race([p1,p2,p3])
-p4.then(res=>{
-	console.log(res)
+var app = new Vue({
+	el:"#app",
+	data:{
+		student:['kerwin','战三','lisi']
+	},
+	components:
 })
