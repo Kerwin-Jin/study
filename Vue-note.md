@@ -604,11 +604,11 @@ props:{
 
 两种形式：
 
-​	this.$refs[formRef]
+​	1、this.$refs[formRef]
 
-​	this.$refs.formRef
+​	2、this.$refs.formRef
 
-​	formRef为标签或者组件中ref属性的值
+​	（formRef为标签或者组件中ref属性的值）
 
 ref放在标签上，拿到的是原生dom节点。
 
@@ -638,7 +638,7 @@ ref放在标签上，拿到的是原生dom节点。
 	</script>
 ```
 
-ref放在标签上，拿到的是组件对象，可以用于父子组件通信，但是不推荐这个用法，这个方法太暴力！又能获取又能修改
+ref放在组件上，拿到的是组件对象，可以用于父子组件通信，但是不推荐这个用法，这个方法太暴力！又能获取又能修改
 
 ```html
 <body>
@@ -735,7 +735,11 @@ ref放在标签上，拿到的是组件对象，可以用于父子组件通信�
 					console.log(111,data);
 					this.star = data;
 				})
-			}
+			},
+            //组件销毁的时候解绑该事件的监听，这样不会造成一些潜在的内存泄露的问题
+            beforeDestroy(){
+                bus.$off('kerwin')
+            }
 		})
 		
 		var vm = new Vue({
