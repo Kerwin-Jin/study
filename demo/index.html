@@ -2,43 +2,26 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title></title>
+		<title>Vue</title>
+		<!-- <script src="https://cdn.bootcdn.net/ajax/libs/vue/2.6.12/vue.min.js"></script> -->
 	</head>
 	<body>
 		<h1>JS++前端业务提升</h1>
 	</body>
-	<script>
-		function Compute(){
-			var args = arguments,
-				res;
-			this.plus = function(){
-				res=0
-				loop('plus',res,args)
-			}
-			
-			this.mul = function(){
-				res=1
-				loop('mul',res,args)
-			}
-			
-			function loop(method,res,arg){
-				if(method==='plus'){
-					for(var i=0;i<args.length;i++){
-						res+=args[i]
-					}
-				}else{
-					res=1
-					for(var i=0;i<args.length;i++){
-						res*=args[i]
-					}
-				}
-				
-				console.log(res)
-			}
-		}
-		
-		var com = new Compute(1,2,3,4)
-		com.plus()
-		com.mul()
+	
+	<script>	
+	    let obj1 = {
+	        fun:function(){
+	            console.log(this)
+	        }
+	    }		
+		obj1.fun()		//打印结果为Object对象，为他的调用者
+	
+		let obj2 = {
+	        fun:()=>{
+	            console.log(this)
+	        }
+		}		
+		obj2.fun()		//打印结果为Window对象	
 	</script>
 </html>
