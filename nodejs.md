@@ -992,6 +992,17 @@ obj.clear()
 
 Map省略
 
+### reduce方法
+
+reduce是累加器，对一个数组的值进行累加可以用此方法，如下所示，total代表总和，item代表数组中的每一项，3代表数初始值，结果为20
+
+```js
+let arr = [1,2,3,4,7]	//结果为20
+return arr.reduce((toal,item)=>{return total+item},3)
+```
+
+
+
 ### 字符串新增方法
 
 startsWith()
@@ -1131,7 +1142,7 @@ import {say as mysay} from './one.js'
 mysay("Kerwin")
 ```
 
-
+### 
 
 
 
