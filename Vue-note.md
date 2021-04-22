@@ -231,8 +231,8 @@ v-model对多选框进行绑定时，是以数组进行存储的，必须在标�
 <body>
     <div id="app">
         <input type="checkbox" v-model="checkGroup" value="Vue"/>Vue
-        <input type="checkbox" v-model="checkGroup"/ value="React">React
-        <input type="checkbox" v-model="checkGroup"/ value="jQuery">JQuery
+        <input type="checkbox" v-model="checkGroup" value="React"/>React
+        <input type="checkbox" v-model="checkGroup" value="jQuery"/>JQuery
         <button type="button" @click="handleSubmit()">提交</button>
     </div>
 
@@ -458,7 +458,7 @@ fetch("**",{
 
 > 官网地址：https://github.com/axios/axios#readme
 
-**get请求**
+**get请求1**
 
 ```javascript
 axios.get("https://autumnfish.cn/api/joke/list?num=3")
@@ -468,6 +468,15 @@ axios.get("https://autumnfish.cn/api/joke/list?num=3")
 					}).then(err=>{
 						console.log(err);
 					})
+```
+
+**get请求2**
+
+```js
+async mounted(){
+    let {data:res} = await axios.get('https://autumnfish.cn/api/joke/list',{params:{num:3}})
+    console.log(res)
+}
 ```
 
 **post请求**

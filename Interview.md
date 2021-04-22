@@ -426,6 +426,14 @@ console.log(arr2)
 
 视频讲解：https://www.bilibili.com/video/BV1Xz4y1S7Zd?p=539
 
+**闭包是什么？**闭包（closure）是JavaScript的一大难点，也是他的特色。很多高级应用都要依靠闭包来实现，要理解闭包，首先要理解JavaScript的全局变量和局部变量。JavaScript语言的特别之处就在于：函数内部可以直接读取全局变量，但是在函数外部无法读取函数内部的局部变量。
+
+**为什么需要闭包？**闭包可以用在许多地方，它最大的用处有两个，一个是前面提到的可以读取函数内部的变量，另一个就是让这些变量的值始终保存在内存中，不会在函数调用后被自动清除。
+
+**总结：**局部变量无法共享和长久的保存，而全局变量可能造成变量污染，当我们希望有一种机制既可以长久的保存变量又不会造成全局污染，那我们就需要用到闭包。
+
+**定义：**闭包就是能够读取其他函数内容变量的函数，由于在JavaScript中，只有函数内部的子函数才能读取局部变量，所以说，闭包可以简单的理解成“定义在一个函数内部的函数“，所以，在本质上，闭包是将函数内部和函数外部连接起来的桥梁。
+
 **原理**：按道理说，每个函数在执行完毕后会从内存中将该函数弹出，如果函数被从内存中弹出，那么该函数的作用域链由于没有东西对它进行引用，那么这个作用域链就会被销毁，该函数的变量对象也就没有被引用，变量对象也会被销毁，闭包之所以可以在外部函数执行完毕后依然能够使用外部环境中的变量，是因为当外部函数被销毁时，由于闭包中使用了外部函数变量对象中的内容，所以外部函数的变量依然会被保存在内存中。
 
 **作用**：可以将函数中定义的变量拿到函数外部来从操作，即闭包在它所在的函数和全局环境中建立起了桥梁。
@@ -437,17 +445,110 @@ function outer(){
     let a = 100
     
     return function(){
-        console.log(a)
+        a++;
+        console.log(a);
     }
 }
 
-let res = outer()
+let res = outer()	//outer()执行的结果才是我们的闭包
 
 //调用闭包函数
 res()		//输出100
 
 res = null //不使用闭包的时候，手动将闭包清除。
 ```
+
+**闭包应用**
+
+1、用一个公共函数记录行走的值
+
+```js
+<script type="text/javascript">
+    function counter(){
+    let count = 0;
+
+        return function(){
+            console.log(count++)
+        }
+    }
+    let fn1 = counter();
+    fn1()
+    fn1()
+    fn1()
+    fn1()
+
+    let fn2 = counter();
+    fn2()
+    fn2()
+    fn2()
+</script>
+```
+
+2、用闭包封装原生XMLHttpRequest请求
+
+原生写法：
+
+```js
+<script type="text/javascript">
+		let mobile = "18953506546",
+		let password = "12345"
+		sendData(mobile,password)
+		
+		
+		function sendData(mobile,password){
+			let xmlHttp = new XMLHttpRequest();
+			xmlHttp.open('url')
+			xmlHttp.setRequestHeader("Centent-type","application/json")
+			xmlHttp.send(JSON.stringify({mobile:mobile,password:password}))
+			
+			xmlHttp.onreadystatechange = function(){
+				if(xmlHttp.readyState == 4 %% xmlHttp.status == 200){
+					console.log(xmlHttp.responseText)
+				}
+			}
+		}
+	</script>
+```
+
+闭包方式封装：
+
+```js
+<script type="text/javascript">
+		function Http(){
+			let xmlHttp = new XMLHttpRequest();
+			let _url = 'http://localhost:3300'
+			
+			return {
+				request:function(method,url,data,success,error){
+					xmlHttp.open(method,_url+url)
+					if(method=="GET"){
+						xmlHttp.send()
+					}else{
+						xmlHttp.setRequestHeader("Content-Type","application/json")
+						
+						xmlHttp.send(JSON.stringify(data))
+					}
+					
+					xmlHttp.onreadystatechange = function(){
+						if(xmlHttp.readyState == 4 && xmlHttp.status == 200){
+							success(xmlHttp.responseText)
+						}else{
+							error(xmlHttp.responseText)
+						}
+					}
+				}
+			}
+		}
+		
+		Http().request('post','http://localhost:3300/login',{username:'liujinfei',password:'123'},function(data){
+			console.log(data)
+		},function(error){
+			console.log(error)
+		})
+	</script>
+```
+
+
 
 ### 立即执行函数
 

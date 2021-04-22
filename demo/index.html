@@ -4,64 +4,46 @@
 		<meta charset="utf-8">
 		<title>Vue</title>
 		<script src="https://cdn.bootcdn.net/ajax/libs/vue/2.6.12/vue.min.js"></script>
+		<!-- <script src="https://cdn.bootcdn.net/ajax/libs/axios/0.21.1/axios.min.js"></script> -->
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+		<style>
+			
+		</style>
 	</head>
 	<body>
-		<div id="app">
-			<h1>购物车案例</h1>
-			<div>
-				搜索<input type="text" v-model="inputVal"/>
-				<table border=""rules="all">
-					<tr><th>名字</th><th>单价</th><th>数量</th><th>金额（元）</th></tr>
-					<tr v-for="(item,index) in searchData">
-						<td>{{item.name}}</td>
-						<td>{{item.price}}</td>
-						<td>
-							<button @click="item.count--" :disabled="item.count<=0">-</button>
-								{{item.count}}
-							<button @click="item.count++" :disabled="item.count>=item.maxCount">+</button>
-						</td>
-						<td>{{item.price*item.count | moneyFilter(2)}}</td>
-					</tr>
-				</table>
-			</div>
-			<div>
-				共{{totalCount}}件商品，共{{totalPrice|moneyFilter()}}元
-			</div>
-		</div>
 		
 	</body>
-	
-	<script>	
-	   	const app = new Vue({
-			el:"#app",
-			data:{
-				inputVal:'',
-				items:[
-					{name:'苹果',price:10,count:8,maxCount:8},
-					{name:'西瓜',price:13,count:5,maxCount:8},
-					{name:'香蕉',price:23,count:4,maxCount:8},
-					{name:'火龙果',price:12,count:6,maxCount:8},
-					{name:'葡萄',price:18,count:7,maxCount:8}
-				]
-			},
-			computed:{
-				totalCount(){
-					return this.searchData.reduce((a,v)=>a+v.count,0);
-				},
-				totalPrice(){
-					return this.searchData.reduce((a,v)=>a+v.price*v.count,0);
-				},
-				searchData(){
-					if(!this.inputVal) return this.items;
-					return this.items.filter(item=>item.name.includes(this.inputVal))
-				}
-			},
-			filters:{
-				moneyFilter(data,decimal){
-					decimal = decimal||1
-					return "￥"+data.toFixed(decimal)
+	<script type="text/javascript">
+		function Http(){
+			let xmlHttp = new XMLHttpRequest();
+			let _url = 'http://localhost:3300'
+			
+			return {
+				request:function(method,url,data,success,error){
+					xmlHttp.open(method,_url+url)
+					if(method=="GET"){
+						xmlHttp.send()
+					}else{
+						xmlHttp.setRequestHeader("Content-Type","application/json")
+						
+						xmlHttp.send(JSON.stringify(data))
+					}
+					
+					xmlHttp.onreadystatechange = function(){
+						if(xmlHttp.readyState == 4 && xmlHttp.status == 200){
+							success(xmlHttp.responseText)
+						}else{
+							error(xmlHttp.responseText)
+						}
+					}
 				}
 			}
+		}
+		
+		Http().request('post','http://localhost:3300/login',{username:'liujinfei',password:'123'},function(data){
+			console.log(data)
+		},function(error){
+			console.log(error)
 		})
 	</script>
 </html>
