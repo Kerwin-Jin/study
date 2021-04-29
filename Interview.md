@@ -1,5 +1,36 @@
 ## HTML
 
+### 代码片段
+
+```html
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style>
+			
+		</style>
+	</head>
+	<body>
+		<div id="box">
+			<ul id="list"></ul>
+		</div>
+	</body>
+	<script>
+		const list = document.querySelector("#list")
+		const fragment = document.createDocumentFragment()
+		for(let i=0;i<5;i++){
+			let li = document.createElement("li")
+			li.innerHTML = `item${i+1}`
+			fragment.appendChild(li)
+			
+		}
+			list.appendChild(fragment)
+	</script>
+</html>
+```
+
 
 
 ## CSS

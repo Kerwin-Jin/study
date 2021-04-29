@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Vue</title>
+		<script src="https://cdn.bootcdn.net/ajax/libs/vue/2.6.12/vue.min.js"></script>
+		<!-- <script src="https://cdn.bootcdn.net/ajax/libs/axios/0.21.1/axios.min.js"></script> -->
+		<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/> -->
+		<style>
+			
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			isShow:{{isShow}}
+			<hello v-model="isShow"></hello>
+		</div>
+	</body>
+	<template id="hello">
+		<div>
+			<div @click="changeAction">子组件</div>
+			<div>父组件传过来的值：{{value}}</div>
+		</div>
+	</template>
+	<script type="text/javascript">
+		Vue.component('hello',{
+			template:"#hello",
+			data(){
+				return{
+					
+				}
+			},
+			props:{
+				value:Boolean
+			},
+			methods:{
+				changeAction(){
+					this.$emit('input',!this.value)
+				}
+			}
+		})
+		
+		const app = new Vue({
+			el:"#app",
+			data:{
+				name:"kerwin",
+				isShow:true
+			}
+			
+		})
+	</script>
+</html>
