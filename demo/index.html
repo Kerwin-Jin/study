@@ -14,36 +14,20 @@
 		
 	</body>
 	<script type="text/javascript">
-		function Http(){
-			let xmlHttp = new XMLHttpRequest();
-			let _url = 'http://localhost:3300'
-			
-			return {
-				request:function(method,url,data,success,error){
-					xmlHttp.open(method,_url+url)
-					if(method=="GET"){
-						xmlHttp.send()
-					}else{
-						xmlHttp.setRequestHeader("Content-Type","application/json")
-						
-						xmlHttp.send(JSON.stringify(data))
-					}
-					
-					xmlHttp.onreadystatechange = function(){
-						if(xmlHttp.readyState == 4 && xmlHttp.status == 200){
-							success(xmlHttp.responseText)
-						}else{
-							error(xmlHttp.responseText)
-						}
-					}
-				}
+		;(function(){
+			var Computer = function(){
+				
 			}
-		}
+			
+			Computer.prototype.plus = function(num1,num2){
+				return num1+num2;
+			}
+			
+			window.Computer = Computer;
+		})()
 		
-		Http().request('post','http://localhost:3300/login',{username:'liujinfei',password:'123'},function(data){
-			console.log(data)
-		},function(error){
-			console.log(error)
-		})
+		var compu = new Computer()
+		var res = compu.plus(1,2)
+		console.log(res)
 	</script>
 </html>

@@ -13,14 +13,26 @@
 		</div>
 	</body>
 	<script>
-		const list = document.querySelector("#list")
-		const fragment = document.createDocumentFragment()
-		for(let i=0;i<5;i++){
-			let li = document.createElement("li")
-			li.innerHTML = `item${i+1}`
-			fragment.appendChild(li)
-			
+		class Person{
+			constructor(name){
+				this.name = name
+			}
 		}
-			list.appendChild(fragment)
+		
+		class Teacher extends Person{
+			
+			constructor(name,school){
+				super(name)
+				this.school = school
+			}
+			
+			teach(){
+				console.log("I am teaching ")
+				console.log(this.school)
+			}
+		}
+		
+		var teach = new Teacher('xiaoli','THU')
+		teach.teach()
 	</script>
 </html>
