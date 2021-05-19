@@ -2,7 +2,88 @@
 
 ## 数组方法
 
+### 循环遍历
+
+```js
+<script type="text/javascript">
+	var arr = ['kerwin','superman','batman','Tony','Stack'];
+	
+	for(var i=0;i<arr.length;i++){
+		console.log(arr[i]);
+	}
+	
+	for(index in arr){
+		console.log(arr[index])
+	}
+
+    arr.forEach((item,index)=>{
+        console.log(item+'====='+index);
+    })
+</script>
+```
+
+### indexOf()
+
+查找数组中是否包含某个元素
+
+```js
+<script type="text/javascript">
+	var arr = ['kerwin','superman','batman','Tony','Stack'];
+	
+	var res = arr.indexOf('batmafn');
+	
+	if(res!=-1){
+		console.log('存在','位置为：',res+1);
+	}else{
+		console.log('不存在');
+	}
+</script>
+```
+
+### join()
+
+把数组的各个元素，拼接成字符串
+
+```js
+<script type="text/javascript">
+	var arr = ['kerwin','superman','batman','Tony','Stack'];
+	
+	arr = arr.join('>');
+	console.log(arr);
+</script>
+```
+
+### reverse()
+
+翻转数组
+
+### splice()
+
+添加或删除元素
+
+### slice()
+
+截取数组的某段元素，返回一个新的数组
+
+### push()
+
+往数组的最末尾加一个元素
+
+### pop()
+
+删除数组最末尾一个元素
+
+### unshift()
+
+往数组最前面添加一个元素
+
+### shift()
+
+删除数组最前面一个元素
+
 ## 字符串方法
+
+
 
 ## 全面掌握5大BOM操作
 
