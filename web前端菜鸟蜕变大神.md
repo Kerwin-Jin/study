@@ -83,6 +83,44 @@
 
 ## 字符串方法
 
+### trim()
+
+去除字符串两边的空白
+
+```js
+<script type="text/javascript">
+	var str = ' hello ';
+	console.log(str.length)
+	console.log((str.trim()).length);
+</script>
+```
+
+### split()
+
+把字符串变成数组，与数组的方法join()方法是一对
+
+```js
+<script type="text/javascript">
+	var str = 'hello#world#haha#nihao';
+	var arr = str.split("#");
+	console.log(arr);
+</script>
+```
+
+### substr(m, n)
+
+字符串截取，从m开始，截取n个
+
+```js
+<script type="text/javascript">
+	var str = 'hellojavascript';
+	var newStr = str.substr(3,4);
+	console.log(newStr);
+</script>
+```
+
+### slice()
+
 
 
 ## 全面掌握5大BOM操作
