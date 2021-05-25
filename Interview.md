@@ -7,10 +7,7 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title></title>
-		<style>
-			
-		</style>
+		<title>Vue</title>
 	</head>
 	<body>
 		<div id="box">
@@ -24,9 +21,8 @@
 			let li = document.createElement("li")
 			li.innerHTML = `item${i+1}`
 			fragment.appendChild(li)
-			
 		}
-			list.appendChild(fragment)
+		list.appendChild(fragment)
 	</script>
 </html>
 ```
