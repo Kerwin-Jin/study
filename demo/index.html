@@ -10,6 +10,7 @@
 		<!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 		<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+		<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 		<style>
 			.modal1{
@@ -45,15 +46,15 @@
 			<div class="row">
 				<form class="form-inline">
 				  <div class="form-group">
-				    <input type="text" class="form-control" placeholder="标题" v-model="title">
+				    <input type="text" class="form-control" placeholder="标题" v-model="userInfo.title">
 				  </div>
 				  <div class="form-group">
-				    <input type="text" class="form-control" placeholder="发布人" v-model="user">
+				    <input type="text" class="form-control" placeholder="发布人" v-model="userInfo.user">
 				  </div>
 				  <div class="form-group">
-				    <input type="date" class="form-control" v-model="date">
+				    <input type="date" class="form-control" v-model="userInfo.date">
 				  </div>
-				  <button type="button" class="btn btn-primary" @click="add()">添加</button>
+				  <button type="button" class="btn btn-primary" @click="add()" :disabled="!userInfo.title||!userInfo.user||!userInfo.date">添加</button>
 				</form>
 			</div>
 			<hr >
@@ -67,13 +68,13 @@
 						<th>操作</th>
 					</tr>
 					<tr v-for="(v,i) in list" :key="v.id">
-						<td>{{i+1}}</td>
+						<td>{{i+1}}--{{v.id}}</td>
 						<td>{{v.title}}</td>
 						<td>{{v.user}}</td>
 						<td>{{v.date}}</td>
 						<td>
-							<button type="button" class="btn btn-danger">删除</button>
-							<button type="button" class="btn btn-info" @click="isShowModal=true">编辑</button>
+							<button type="button" class="btn btn-danger" @click="del(v)">删除</button>
+							<button type="button" class="btn btn-info" @click="edit(v)">编辑</button>
 						</td>
 					</tr>
 				</table>
@@ -81,22 +82,20 @@
 			
 			<!-- 修改表单 -->
 			<div class="modal1" v-show="isShowModal">
+
 				<div class="input_wrapper">
 					<i class="glyphicon glyphicon-remove" @click="isShowModal=false"></i>
 					<form>
 					  <div class="form-group">
-					    <label for="title">标题</label>
-					    <input type="text" class="form-control" id="title" placeholder="请输入标题">
+					    <input type="text" class="form-control" placeholder="请输入标题" v-model="editInfo.title">
 					  </div>
 					  <div class="form-group">
-					    <label for="publisher">发布人</label>
-					    <input type="text" class="form-control" id="publisher" placeholder="发布人">
+					    <input type="text" class="form-control" placeholder="发布人" v-model="editInfo.user">
 					  </div>
 					  <div class="form-group">
-					    <label for="date">日期</label>
-					    <input type="date" class="form-control" id="date">
+					    <input type="date" class="form-control" v-model="editInfo.date">
 					  </div>
-					  <button type="button" class="btn btn-primary">修改</button>
+					  <button type="button" class="btn btn-primary" @click="update(editInfo)">修改</button>
 					  <button type="button" class="btn btn-success" @click="isShowModal=false">取消</button>
 					</form>
 				</div>
@@ -108,22 +107,50 @@
 			el:'#app',
 			data:{
 				isShowModal:false,
-				title:'',
-				user:'',
-				date:'',
+				userInfo:{
+					title:'',
+					user:'',
+					date:''
+				},
+				editInfo:{
+					title:'',
+					user:'',
+					date:''
+				},
 				list:[
 					{title:'标题1',user:'user1',date:'2021-04-21',id:1},
 					{title:'标题2',user:'user2',date:'2021-04-21',id:2},
-					{title:'标题3',user:'user3',date:'2021-04-21',id:3}
+					{title:'标题3',user:'user3',date:'2021-04-21',id:14}
 				]
 			},
 			methods:{
 				add(){
-					this.list.push({title:this.title,user:this.user,date:this.date});
+					let {title,user,date} = this.userInfo;
+					// 必填判断
+					if(!title||!user||!date){
+						alert('请检查输入');
+						return ;
+					}
+					// 添加
+					// let _id = new Date().getTime(); 
+					let _id = Math.max(...this.list.map(item=>item.id))+1;
 					
-					this.title = '';
-					this.user = '';
-					this.date = '';
+					this.list.push({...this.userInfo,id:_id});
+					// 清空输入框
+					this.userInfo = {};
+				},
+				del(v){
+					this.list = this.list.filter(item=>item.id!=v.id);
+				},
+				edit(v){
+					this.isShowModal = true;
+					this.editInfo = {...v};
+					
+					
+				},
+				update(v){
+					this.list.filter(item=>item.id==v.id)[0] = this.editInfo;
+					this.isShowModal = false;
 				}
 			}
 		})
