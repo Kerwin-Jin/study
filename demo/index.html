@@ -120,7 +120,7 @@
 				list:[
 					{title:'标题1',user:'user1',date:'2021-04-21',id:1},
 					{title:'标题2',user:'user2',date:'2021-04-21',id:2},
-					{title:'标题3',user:'user3',date:'2021-04-21',id:14}
+					{title:'标题3',user:'user3',date:'2021-04-21',id:14},
 				]
 			},
 			methods:{
@@ -145,8 +145,6 @@
 				edit(v){
 					this.isShowModal = true;
 					this.editInfo = {...v};
-					
-					
 				},
 				update(v){
 					this.list.filter(item=>item.id==v.id)[0] = this.editInfo;
