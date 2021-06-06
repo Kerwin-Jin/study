@@ -12,32 +12,90 @@
 		<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
 		<!-- <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script> -->
 		<!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> -->
-		
 	</head>
+	<style>
+		*{
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
+		#box{
+			width: 800px;
+			height: 500px;
+			margin: 100px auto;
+			background-image: url('https://qpic.y.qq.com/music_cover/lLIjmibUF1NrQu3XaJd7ickbjA83cp38tWmMiaLrYXKe25FphsnS9mgFw/600?n=1');
+			background-size: cover;
+			position: relative;
+		}
+		.ball{
+			position: absolute;
+			border-radius: 50%;
+		}
+	</style>
 	<body>
-		<p>111</p>
-		<p>222</p>
-		<p>333</p>
-		<p>444</p>
+		<div id="box">
+			
+		</div>
 	</body>
 	<script type="text/javascript">
-		(function(window){
-			
-			window.$ = jquery = function(nodeSelector){
-				let nodes = {};
-				if(typeof nodeSelector == 'string'){
-					let tempNode = document.querySelectorAll(nodeSelector);
-					for(let i=0;i<tempNode.length;i++){
-						nodes[i] = tempNode[i];
-					}
-					nodes.length = tempNode.length;
-					console.log(nodes.length);
-				}else{
-					throw new Error('必须传入字符串');
-				}
-			}
-		})(window)
 		
-		$("p");
+		
+		function Ball(){
+			// 球的类型
+			this.ball = document.createElement('div');
+			
+			// 随机值
+			var randomNum = randomFn(10,30);
+			
+			// 球的尺寸
+			this.width = randomNum;
+			this.height = randomNum;
+			
+			// 球的颜色
+			this.bgColor = `rgb(${randomFn(0,255)},${randomFn(0,255)},${randomFn(0,255)})`;
+			
+			// 球的位置
+			var box = document.getElementById('box');
+			this.left = randomFn(0,box.offsetWidth-this.width);
+			this.top = randomFn(0,box.offsetHeight-this.height);
+			
+			// 速度和方向
+			this.speedX = randomFn(-15,15);
+			this.speedY = randomFn(-15,15);
+			
+			this.init = function(){
+				this.ball.className = "ball";
+				this.ball.style.width = this.width+'px';
+				this.ball.style.height = this.height+'px';
+				this.ball.style.left = this.left+'px';
+				this.ball.style.top = this.top+'px';
+				this.ball.style.backgroundColor = this.bgColor;
+				box.appendChild(this.ball);
+			}
+			
+			this.move = function(){
+				
+				setInterval(()=>{
+					this.ball.style.backgroundColor = `rgb(${randomFn(0,255)},${randomFn(0,255)},${randomFn(0,255)})`;
+				},500)
+			}
+			// 方法
+			this.init();
+			
+			this.move();
+			
+		}
+		
+		// new Ball();
+		// for(var i=0;i<100;i++){
+		// 	new Ball();
+		// }
+		
+		
+		
+		function randomFn(min, max){
+			return parseInt(Math.random()*(max+1-min)+min);
+		}
+		
 	</script>
 </html>
