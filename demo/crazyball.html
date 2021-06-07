@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Vue</title>
+		<script src="https://cdn.bootcdn.net/ajax/libs/vue/2.6.12/vue.min.js"></script>
+		<!-- <script src="https://cdn.bootcdn.net/ajax/libs/axios/0.21.1/axios.min.js"></script> -->
+		<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/> -->
+		<!-- <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css"> -->
+		<!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+		<!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"> -->
+		<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+		<!-- <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script> -->
+		<!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> -->
+	</head>
+	<style>
+		*{
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
+		#box{
+			width: 800px;
+			height: 500px;
+			margin: 100px auto;
+			background-image: url('https://qpic.y.qq.com/music_cover/lLIjmibUF1NrQu3XaJd7ickbjA83cp38tWmMiaLrYXKe25FphsnS9mgFw/600?n=1');
+			background-size: cover;
+			position: relative;
+		}
+		.ball{
+			position: absolute;
+			border-radius: 50%;
+		}
+	</style>
+	<body>
+		<div id="box">
+			
+		</div>
+	</body>
+	<script type="text/javascript">
+		
+		
+		function Ball(){
+			// 球的类型
+			this.ball = document.createElement('div');
+			// 随机值
+			var randomNum = randomFn(10,30);
+			// 球的尺寸
+			this.width = randomNum;
+			this.height = randomNum;
+			// 球的颜色
+			this.bgColor = `rgb(${randomFn(0,255)},${randomFn(0,255)},${randomFn(0,255)})`;
+			// 球的位置
+			var box = document.getElementById('box');
+			this.left = randomFn(0,box.offsetWidth-this.width);
+			this.top = randomFn(0,box.offsetHeight-this.height);
+			// 速度和方向
+			this.speedX = randomFn(-15,15);
+			this.speedY = randomFn(-15,15);
+		}
+		
+		Ball.prototype.render = function(){
+			var box = document.getElementById('box');
+			box.appendChild(this.ball);
+			this.ball.style.width = this.width+'px';
+			this.ball.style.height = this.height+'px';
+			this.ball.style.left = this.left+'px';
+			this.ball.style.top = this.top+'px';
+			this.ball.className = "ball";
+			this.ball.style.backgroundColor = this.bgColor;
+		}
+		
+		Ball.prototype.move = function(){
+			var _this = this;
+			setInterval(function(){
+				
+			var box = document.getElementById('box');
+			
+			
+				// 左右移动
+				var ballLeft = parseInt(_this.ball.style.left);
+				var ballTop = parseInt(_this.ball.style.top);
+				_this.ball.style.left = ballLeft + _this.speedX +'px';
+				// _this.ball.style.top = ballTop + _this.speedY +'px';
+				
+				if(ballLeft>=box.offsetWidth-_this.width || ballLeft<=0){
+					_this.speedX = _this.speedX * -1;
+					_this.ball.style.left = ballLeft + _this.speedX +'px';
+				}
+				
+				
+				// 上下移动
+				_this.ball.style.top = ballTop + _this.speedY +'px';
+				if(ballTop>=box.offsetHeight-_this.height || ballTop<=0){
+					_this.speedY = _this.speedY * -1;
+					_this.ball.style.top = ballTop + _this.speedY +'px';
+				}
+			},16);
+		}
+		
+		function randomFn(min, max){
+			return parseInt(Math.random()*(max+1-min)+min);
+		}
+		
+		
+		// var b = new Ball();
+		// b.render();
+		// b.move();
+		for(var i=0;i<10;i++){
+			
+			var b = new Ball();
+			b.render();
+			b.move();
+		}
+		
+		
+		
+		
+		
+	</script>
+</html>

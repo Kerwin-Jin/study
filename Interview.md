@@ -427,6 +427,16 @@ console.log(arr2)
 </script>
 ```
 
+### this的使用场景
+
+1.代表window，比如script中直接console.log(this)
+
+2.代表应用事件的元素，比如div.onclick = function(){ console.log(this); }
+
+3.字面量形式创建的对象，this表示当前的字面量对象
+
+4.构造方法中的this代表创建出来的对象
+
 
 
 ### 作用域链
