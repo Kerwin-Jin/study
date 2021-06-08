@@ -17,22 +17,10 @@
 		
 	</style>
 	<body>
+		<div id="box" title="hello">我是一个div</div><!--我是注释-->
 	</body>
 	<script type="text/javascript">
-		function Person(name,age){
-			this.name = name;
-			this.age = age;
-			this.speak = function(){
-				console.log(this.name);
-			}
-		}
-		
-		var p = new Person("TOm",10);
-		
-		console.log(p.hasOwnProperty('hasOwnProperty'));
-		for(var i in p){
-			console.log(i+'---'+p[i]);
-		}
-		
+		var div = document.querySelector("#box");
+		div.setAttribute('data-name','world')
 	</script>
 </html>
