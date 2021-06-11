@@ -281,28 +281,204 @@ querySelectorAll()			能返回符合选择器的所有元素
 
 **修改属性**
 
-1. setAttribute方法设置属性值，格式：元素节点.setAttribute('属性名称','属性值')
+setAttribute方法设置属性值，格式：元素节点.setAttribute('属性名称','属性值')
 
-   ```html
-   <body>
-       <div id="box" title="hello">我是一个div</div><!--我是注释-->
-   </body>
-   <script type="text/javascript">
-   	var div = document.querySelector("#box");
-   	div.setAttribute('title','world');		//修改已有属性title
-   	div.setAttribute('data-name','world')	//添加没有的属性data-name
-   </script>
-   ```
+```html
+<body>
+    <div id="box" title="hello">我是一个div</div><!--我是注释-->
+</body>
+<script type="text/javascript">
+	var div = document.querySelector("#box");
+	div.setAttribute('title','world');		//修改已有属性title
+	div.setAttribute('data-name','world')	//添加没有的属性data-name
+    
+    
+    div.title = 'world'      //点语法
+    div['title'] = 'world!'  //中括号
+</script>
+```
+
+**删除属性**
+
+```html
+<body>
+    <div id="box" style="width: 100px;height: 100px;background-color: aqua;font-size: 20px;">Hello</div>
+</body>
+<script type="text/javascript">
+	var div = document.querySelector('#box');
+	
+	div.removeAttribute('id');
+</script>
+```
 
 
 
+#### 获取/设置class
 
+```html
+<style>
+	.a{
+		width: 100px;
+		height: 100px;
+	}
+	.b{
+		background-color: red;
+	}
+	.c{
+		background-color: blue;
+	}
+</style>
+<body>
+	<div id="box" title="hello" class="a b">我是一个div</div><!--我是注释-->
+</body>
+<script type="text/javascript">
+	var div = document.querySelector("#box");
+	console.log(div.className);		//如果使用点语法操作类，那么不可以直接写class，需要使用className
+	
+	
+	div.className = 'c';			//设置class
+	div['className'] = 'a c';		//设置class  使用中括号和点语法不可以直接写class，需要使用className
+	
+	console.log(div.getAttribute('class'));				//通过getAttribute获取class直接写class就行，不需要写成className
+	console.log(div.setAttribute('class','a b'));
+	
+</script>
+```
 
+#### checked和selected
 
+如果要使用js操作表单元素中的checked和selected属性，注意：属性值需要设置为true、false，不要写成checked = 'checked'这样
 
+true表示选中
 
+false表示取消选中
 
+```html
+<body>
+	<input type="checkbox" name="city" value="beijing"/>北京
+	<input type="checkbox" name="city" value="shagnhai" />上海
+	<input type="checkbox" name="city" value="guagnzhou"/>广州
+</body>
+<script type="text/javascript">
+	var inputs = document.getElementsByTagName('input');
+	for(var i=0;i<inputs.length;i++){
+		inputs[i].checked = true;
+	}
+</script>
+```
 
+#### 节点关系
+
+页面中的节点不是孤立的，是有关系的，常见的关系如下
+
+1. childNodes: 所有子节点
+2. firstChild: 第一个子节点
+3. lastChild: 最后一个子节点
+4. parentNode: 父节点
+5. nextSibling: 后一个兄弟节点
+6. previousSibling: 前一个兄弟节点 
+
+！通过这些属性获取的包括换行，所以ul.firstChild得到的是#text而不是第一个li
+
+```html
+<body>
+    <ul>
+    	<li>woshi1ge</li>
+    	<li>woshi2ge</li>
+    	<li>woshi3ge</li>
+    	<li>woshi4ge</li>
+    	<li>woshi5ge</li>
+    </ul>
+</body>
+<script type="text/javascript">
+	var ul = document.querySelector('ul');
+	var childs = ul.firstChild.nextSibling;
+	console.log(childs);
+</script>
+```
+
+1. childNodes: ---------children
+2. firstChild: ----------firstElementChild
+3. lastChild: ---------lastElementChild
+4. parentNode: ---------parentElement
+5. nextSibling: ---------nextElementSibling
+6. previousSibling: ------------previousElementSibling
+
+```html
+<body>
+    <ul>
+    	<li>woshi1ge</li>
+    	<li>woshi2ge</li>
+    	<li>woshi3ge</li>
+    	<li>woshi4ge</li>
+    	<li>woshi5ge</li>
+    </ul>
+</body>
+<script type="text/javascript">
+	var ul = document.querySelector('ul');
+	var firstLi = ul.firstElementChild
+	console.log(firstLi);
+</script>
+```
+
+#### 特殊节点
+
+| 获取                   | 代码                                                  |
+| ---------------------- | ----------------------------------------------------- |
+| **获取html节点**       | document.documentElement                              |
+| **获取body节点**       | document.body                                         |
+| **获取head节点**       | document.head                                         |
+| 获取title节点          | document.title                                        |
+| 设置title              | document.title = 'hello'                              |
+| 获取uri                | document.documentURI                                  |
+| 对uri进行解码          | console.log(decodeURIComponent(document.documentURI)) |
+| 获取URL                | document.URL                                          |
+| 获取域名               | document.domain                                       |
+| 获取文档加载的三个阶段 | document.readyState                                   |
+
+三个阶段分别是loadding、interactive、complete
+
+loading表示正在加载html文档，interactive表示加载外部资源，complete表示完成
+
+| 获取                               | 代码             |
+| ---------------------------------- | ---------------- |
+| 获取页面中所有具有name属性的超链接 | document.anchors |
+| 获取页面中所有的form节点           | document.forms   |
+| 获取页面中所有img节点              | document.images  |
+| 获取页面中带有href属性的超链接     | document.links   |
+| 获取页面中所有的script节点         | document.scripts |
+
+#### DOM操作行内样式
+
+如果要使用DOM操作行内样式，可以使用元素节点的style属性来操作，返回的是CSS样式声明(CSSStyleDeclaration) **对象**，这个对象中有我们设置的CSS样式
+
+获取CSS样式声明对象：div.style，这个对象中包含所有css的属性，是一些键值对，我们可以通过操作这个对象来操作样式
+
+```html
+<body>
+    <div id="box" style="width: 100px;height: 100px;background-color: aqua;font-size: 20px;">Hello</div>
+</body>
+<script type="text/javascript">
+	var div = document.querySelector('#box');
+	console.log(div.style);			//输出为CSSStyleDeclaration
+    console.log(parseInt(div.style.width));
+	console.log(div.style.fontSize);	//如果CSS属性名称由横线连接多个单词，那么要采用驼峰命名
+    console.log(div.style.cssText);		//返回值为所有行内样式形成的字符串
+</script>
+```
+
+此外，CSS样式声明对象还提供了三个方法用来获取、设置、移除样式属性
+
+```js
+<script type="text/javascript">
+	var div = document.querySelector('#box');
+	
+	console.log(div.style.getPropertyValue('background-color'));	//获取属性，注意：用他内置的方法时不需要用驼峰命名法
+	div.style.setProperty('height','50px');
+	div.style.removeProperty('background-color');
+	
+</script>
+```
 
 
 
