@@ -480,7 +480,90 @@ loading表示正在加载html文档，interactive表示加载外部资源，comp
 </script>
 ```
 
+#### DOM操作外部样式
 
+获取内部样式和外部样式的兼容写法
+
+```js
+<script type="text/javascript">
+	
+	var box = document.getElementById('box')
+	function getStyle(ele,className){
+		if(window.getComputedStyle){
+            console.log('是IE');		//不是IE的浏览器
+			return window.getComputedStyle(ele,null)[className];		//不是IE
+		}else{
+			console.log('是IE');		
+			return ele.currentStyle[className];		//是IE
+		}
+	}
+	
+	var style = getStyle(box,'width');
+	console.log(style)
+</script>
+```
+
+#### DOM常用方法
+
+创建节点：document.createElement('标签名称')
+
+添加节点：appendChild('节点对象')
+
+```js
+<script type="text/javascript">
+	var divObj = document.createElement('div');
+	console.log(divObj);
+	divObj.innerHTML = 'Hello World!';
+	document.body.appendChild(divObj);
+</script>
+```
+
+插入节点：insertBefore()
+
+```js
+<body>
+    <ul>
+    	<li>我是1个节点</li>
+    	<li>我是2个节点</li>
+    	<li>我是3个节点</li>
+    	<li>我是4个节点</li>
+    	<li>我是5个节点</li>
+    </ul>
+</body>
+<script type="text/javascript">
+	var newLi = document.createElement('li');
+	newLi.innerHTML = "我是新插入的节点";
+	var ul = document.querySelector('ul');
+	var lis = ul.querySelectorAll('li');
+	ul.insertBefore(newLi,lis[3]);		//插入节点
+</script>
+```
+
+#### DOM常用属性
+
+offsetParent：返回该元素的参照元素（父节点有定位属性的元素）
+
+```js
+<script type="text/javascript">
+	var ul = document.querySelector('li');
+	var res = ul.offsetParent;
+	console.log(res);
+</script>
+```
+
+offsetTop：距离偏移对象顶部的距离
+
+offsetLeft：距离偏移对象左边的距离
+
+offsetWidth：返回元素的宽度（不包括外边距）
+
+offsetHeight：返回元素的高度（不包括外边距）
+
+clientWidth：返回元素宽度（不包括边框和外边距）
+
+clientHeight：返回元素高度（不包括边框和外边距）
+
+### 事件
 
 
 
