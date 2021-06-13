@@ -565,9 +565,86 @@ clientHeight：返回元素高度（不包括边框和外边距）
 
 ### 事件
 
+#### DOM0级事件处理程序
 
+1. 添加方式
 
+   方式一：元素节点.on事件名称 = function(){};
 
+   方式二：元素节点.on事件名称 = 事件处理函数名称（注意函数名后不加括号）
 
+2. 删除方式
 
+   元素节点.on事件名称 = null;
 
+3. this的使用：DOM0级事件处理程序中this的使用：在其对应的事件处理函数中直接使用this即可，这个this代表的就是当前事件应用到的元素。
+
+4. 注意：如果一个元素被添加了多个相同的事件，那么后添加的事件会覆盖掉前面的事件；
+
+```js
+<script type="text/javascript">
+	
+	
+	var box = document.querySelector("#box");
+	// box.onclick = function(){
+	// 	console.log(111);
+	// }
+	
+	box.onclick = getInfo;		//注意，这里只写函数名字，不加括号，加括号就直接执行了，这里相当于把函数体加到后面了
+	
+	function getInfo(){
+		console.log(111);
+        box.onclick = null;		//如何让函数只执行一次，利用该语句让点击事件执行完一次之后置空就可以了
+	}
+	
+	// box.onclick = null;		//删除事件
+</script>
+```
+
+#### DOM2级事件处理程序
+
+> https://www.bilibili.com/video/BV1Xz4y1S7Zd?p=457
+
+1. 添加方式：
+
+   元素节点.addEventListener(参数1,参数2,参数3)
+
+2. 参数说明：
+
+   参数1表示事件名称，
+
+   参数2表示事件处理函数，可以是匿名函数，也可以是有名函数（不需要带括号）
+
+   参数3表示事件流，值为true（事件捕获）、false（默认，冒泡事件）
+
+3. 删除方式：元素节点.removeEventListener(参数1,参数2,参数3)，参数说明：如上。如果说事件被删除，那么添加事件的时候不可以是匿名函数，只能是函数名称
+
+4. 注意：
+
+   - DOM2级事件处理程序不使用与IE8及以前的浏览器
+   - 如果一个元素身上通过DOM2级事件处理程序添加了多个相同的事件，那么这些事件可以同时存在
+
+5. DOM2级事件处理程序中this的使用：在其对应的事件处理函数中直接使用this即可，这个this代表的就是当前事件应用到的元素。
+
+```js
+<script type="text/javascript">
+	
+	
+	var box = document.querySelector("#box");
+	
+	box.addEventListener("click",getInfo,false)
+	
+	function getInfo(){
+		console.log(this.innerHTML);
+	}
+
+	//box.addEventListener("click",getInfo,false)
+</script>
+```
+
+#### 事件流
+
+所谓事件流，简单说就是页面中事件的执行顺序，可以分为两个部分：事件冒泡、事件捕获
+
+- 事件冒泡：从当前元素开始逐步向外扩展（即向根节点），简单说，事件的执行顺序是从小到大，或从内向外。
+- 事件捕获：从根节点开始逐步向当前元素扩展，简单说，事件的执行顺序是从大到小，或从外向内。
