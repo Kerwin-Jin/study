@@ -648,3 +648,86 @@ clientHeight：返回元素高度（不包括边框和外边距）
 
 - 事件冒泡：从当前元素开始逐步向外扩展（即向根节点），简单说，事件的执行顺序是从小到大，或从内向外。
 - 事件捕获：从根节点开始逐步向当前元素扩展，简单说，事件的执行顺序是从大到小，或从外向内。
+
+#### 事件对象
+
+**获取**
+
+1. 什么是事件对象？事件对象是JS的一个内置对象，该对象记录了和当前事件相关的信息，另外事件对象也提供了大量的 属性和方法帮助我们操作事件
+2. 事件对象的获取
+   - 谷歌浏览器：事件对象被以形参的形式传递给事件处理函数
+   - IE8及一下低版本浏览器：可以使用window对象的event属性来获取，格式：window.event
+
+```js
+<script type="text/javascript">
+    //谷歌和IE的兼容写法
+	var box = document.getElementById("box");
+	box.onclick = function(e){
+		e = e || window.event;
+		console.log(e);
+        
+        console.log(e.type)		//获取事件的类型
+	}
+</script>
+```
+
+**常用属性**
+
+e.type
+
+e.altKey
+
+e.ctrlKey
+
+e.shiftKey
+
+e.keyCode
+
+e.screenX , e.screenY : 获取鼠标点击的点距离屏幕左侧和顶端的距离
+
+e.clientX , e.clientY : 获取鼠标点击的点距离视口左侧和顶端距离，不受滚动条影响
+
+e.pageX , e.pageY : 获取鼠标点击的点距离页面左侧距离和页面顶端距离，pageX,pageY受滚动条影响
+
+```js
+<script type="text/javascript">
+	
+	var box = document.getElementById("box");
+	
+	document.onkeydown = function(e){
+		console.log(e.ctrlKey);
+		console.log(e.shiftKey);
+		console.log(e.altKey);
+        //console.log(e.keyCode); 
+		
+		if(e.ctrlKey && e.altKey){
+			console.log('同時按了ctrl和alt');
+		}
+	}
+</script>
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
