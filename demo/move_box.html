@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Vue</title>
+		<style>
+			*{
+				margin: 0;
+				padding: 0;
+			}
+			#box{
+				width: 100px;
+				height: 100px;
+				background-color: #f40;
+				position: fixed;
+				left: 0;
+				top: 0;
+			}
+		</style>
+	</head>
+	
+	<body>
+		<div id="box"></div>
+	</body>
+	<script type="text/javascript">
+		var box = document.querySelector("#box");
+		box.onmousedown = function(e){
+			e = e || window.event;
+			
+			var divX = e.offsetX,
+				divY = e.offsetY;
+			
+			
+			// 为document添加移动事件而不是为box添加，是为了防止移动太快导致鼠标从box移出去无法触发事件
+			document.onmousemove = function(e){
+				e = e || window.event;
+				var docuX = e.clientX,
+					docuY = e.clientY;
+				
+				box.style.left = (docuX - divX)+'px';
+				box.style.top = (docuY - divY)+'px';
+			}
+		}
+		
+		
+		//当鼠标抬起时，清除移动事件
+		box.onmouseup = function(){
+			document.onmousemove = null;
+		}
+	</script>
+</html>

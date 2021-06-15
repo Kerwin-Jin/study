@@ -651,7 +651,7 @@ clientHeight：返回元素高度（不包括边框和外边距）
 
 #### 事件对象
 
-**获取**
+##### 获取
 
 1. 什么是事件对象？事件对象是JS的一个内置对象，该对象记录了和当前事件相关的信息，另外事件对象也提供了大量的 属性和方法帮助我们操作事件
 2. 事件对象的获取
@@ -671,23 +671,27 @@ clientHeight：返回元素高度（不包括边框和外边距）
 </script>
 ```
 
-**常用属性**
+##### 常用属性
 
-e.type
+e.type    事件类型
 
-e.altKey
+e.altKey、e.ctrlKey、e.shiftKey    结果返回true和false
 
-e.ctrlKey
+```js
+if(e.ctrlKey && e.altKey){
+    console.log('同時按了ctrl和alt');
+}
+```
 
-e.shiftKey
-
-e.keyCode
+e.keyCode   键码值
 
 e.screenX , e.screenY : 获取鼠标点击的点距离屏幕左侧和顶端的距离
 
-e.clientX , e.clientY : 获取鼠标点击的点距离视口左侧和顶端距离，不受滚动条影响
+e.clientX , e.clientY : 获取鼠标点击的点距离**视口**左侧和顶端距离，不受滚动条影响
 
-e.pageX , e.pageY : 获取鼠标点击的点距离页面左侧距离和页面顶端距离，pageX,pageY受滚动条影响
+e.pageX , e.pageY : 获取鼠标点击的点距离**页面**左侧距离和页面顶端距离，pageX,pageY受滚动条影响
+
+e.offsetX , e.offsetY :  获取光标相对于**目标元素**边界的X、Y坐标
 
 ```js
 <script type="text/javascript">
@@ -707,19 +711,257 @@ e.pageX , e.pageY : 获取鼠标点击的点距离页面左侧距离和页面顶
 </script>
 ```
 
+**e.currentTarget** : currentTarget属性表示哪个元素的事件被触发了（谁身上的事件被触发了），
+
+```html
+<body>
+    
+	<ul>
+		<li data='1'>我是第1个</li>
+		<li data='2'>我是第2个</li>
+		<li data='3'>我是第3个</li>
+		<li data='4'>我是第4个</li>
+		<li data='5'>我是第5个</li>
+	</ul>
+	
+</body>
+<script type="text/javascript">
+	var ul = document.getElementsByTagName('ul')[0];
+	document.onclick = function(e){
+		e = e || window.event;
+		console.log(e.currentTarget);
+	}
+	ul.onclick = function(e){
+		e = e||window.event;
+		console.log(e.currentTarget);
+	}
+</script>
+```
+
+如上例子：当每个li被点击的时候，ul和document的每个事件都会被触发，遵循向上冒泡的原则
+
+**e.target** : target属性的作用就是获取当前哪个元素被点击了（点击到谁身上了），IE中使用e.srcElement获取
+
+```html
+<body>
+	<ul>
+		<li data='1'>我是第1个</li>
+		<li data='2'>我是第2个</li>
+		<li data='3'>我是第3个</li>
+		<li data='4'>我是第4个</li>
+		<li data='5'>我是第5个</li>
+	</ul>
+</body>
+<script type="text/javascript">
+	var ul = document.getElementsByTagName('ul')[0];
+	ul.onclick = function(e){
+		e = e||window.event;
+        var myTarget = e.target || e.srcElement		//处理兼容性问题
+		console.log(myTarget.innerHTML);
+	}
+</script>
+```
+
+如上例子，我们在ul上绑定了事件，当点击 li 的时候，返回的就是 li 而不是 ul
+
+##### 常用方法
+
+**e.preventDefault()**
+
+作用：取消默认行为，所谓默认行为就是指页面中元素的某些默认功能，如超链接、提交、重置等
+
+格式：事件对象.preventDefault();
+
+注意：低版本IE不支持该方法，通过e.returnValue=false设置
+
+```html
+<body>
+	<a href="https://www.baidu.com">跳转到百度</a>
+</body>
+<script type="text/javascript">
+	var link = document.getElementsByTagName('a')[0];
+    
+    
+    //兼容写法
+	link.onclick = function(e){
+		e = e||window.event;
+		
+		if(e.preventDefault == undefined){
+			e.returnValue = false;		//IE
+			console.log("IE")
+		}else{
+			e.preventDefault();			//谷歌			
+			console.log("Chrome");
+		}
+        
+        
+        //兼容写法2
+        //e.preventDefault==undefined ? (e.returnValue = false):e.preventDefault();
+	}
+</script>
+```
+
+案例：取消页面的右击菜单
+
+```js
+<script type="text/javascript">
+		
+	document.oncontextmenu = function(e){
+		e = e||window.event;
+		
+		e.preventDefault==undefined?(e.returnValue=false):e.preventDefault();
+		console.log(e);
+	}
+</script>
+```
+
+**e.stopPropagation()**
+
+作用：取消冒泡
+
+兼容写法：
+
+e.stopPropagation == undefined?(e.cancelBubble = true) : e.stopPropagation();
 
 
 
+##### 鼠标事件
 
+onclick(单击事件)、ondblclick(双击事件)
 
+onmouseover、mouseout : 如果有后代元素，那么在进入到后代元素再进入到自身时会多次触发该事件，具有冒泡特性
 
+onmouseenter、onmouseleave : 如果有后代元素，不回重复触发，这两个事件不具有冒泡特性
 
+onmousedown、onmouseup : 事件只触发一次
 
+onmousemove : 该事件会重复触发
 
+##### 表单事件
 
+onfocus、onblur、oninput、onchange
 
+```html
+<body>
+	姓名：<input type="text" name="" id="" value="" /><span id="info" style="display: none;"></span>
+</body>
+<script type="text/javascript">
+	var input = document.getElementsByTagName('input')[0];
+	input.onfocus = function(e){
+		console.log(e.path);
+		var span = document.getElementById("info");
+		var info = "请输入5-10位字母作为用户名";
+		span.innerHTML = info;
+		span.style.display = 'inline';
+	}
+	input.onblur = function(e){
+		var val = input.value;
+		if(!val){
+			alert("请输入用户名！");
+			return;
+		}
+		console.log('diaoyong jiekou')
+	}
+    
+    //当输入内容发生变化时触发该番薯
+    input.oninput = function(){
+        console.log(this.value);
+    }
+    
+    //当表单失去焦点并且内容发生变化时，触发该事件
+    input.onchange = function(){
+        console.log("changed");
+    }
+</script>
+```
 
+onsubmit事件：当提价按钮被点击的时候触发，注意该事件需要给form元素添加，该事件可以被用来阻断数据的提交，如果该事件对应的事件处理函数返回值为false，那么就会阻断提交。
 
+onreset事件：当重置按钮被点击时触发，注意该事件也是给form元素添加。
+
+```html
+<body>
+	<form action="" method="">
+		<input type="submit" value="提交" />
+		<input type="reset" value="重置" />
+	</form>
+</body>
+<script type="text/javascript">
+	
+	var form = document.querySelector("form");
+	
+	//这里注意，是给form表单添加事件
+	form.onsubmit = function(){
+		alert('提交了');
+		console.log("提交了");
+	}
+	
+	form.onreset = function(){
+		console.log("重置了");
+	}
+</script>
+```
+
+##### 键盘事件
+
+keyup、keydown、keypress
+
+```js
+<script type="text/javascript">
+	
+	document.onkeypress = function(e){
+		e = e || window.event;
+		
+		console.log(e.keyCode);
+	}
+</script>
+```
+
+##### scroll事件
+
+当对滚动条进行滚动的时候触发该事件，某个元素可以触发，窗口也可以触发
+
+```js
+<script type="text/javascript">
+	
+    //给一个div添加scroll事件
+	document.querySelector("#box").onscroll = function(e){
+		console.log(e);
+	}
+	
+	//给窗口添加scroll事件
+	window.onscroll = function(e){
+		console.log(111);
+	}
+</script>
+```
+
+一般，onscroll结合scrollTop和scrollLeft使用，比如回到顶部就是用这种方式
+
+```js
+document.querySelector("#toTop").onclick = function(){
+	document.documentElement.scrollTop = 0;
+}
+```
+
+需要注意的是：在使用scrollTop和scrollLeft时需要注意：在拉动窗口的滚动条时，如果要获取被卷上去的内容的高度，那么不可以使用window.scrollTop，因为window对象没有scrollTop和scrollLeft属性，此时如果要获取scrollTop或scrollLeft的值，需要
+
+document.documentElement.scrollTop || document.body.scrollTop
+
+```js
+window.onscroll = function(){
+	var obj = document.documentElement || document.body;
+	console.log(obj.scrollTop);
+}
+```
+
+##### 移动端事件
+
+ontouchstart：当手指触摸到屏幕或指定元素时触发
+
+ontouchmove：当手指在屏幕或指定元素上移动时触发
+
+ontouchend：当手指从屏幕或指定元素离开时触发
 
 
 
