@@ -490,7 +490,7 @@ loading表示正在加载html文档，interactive表示加载外部资源，comp
 	var box = document.getElementById('box')
 	function getStyle(ele,className){
 		if(window.getComputedStyle){
-            console.log('是IE');		//不是IE的浏览器
+            console.log('不IE');		//不是IE的浏览器
 			return window.getComputedStyle(ele,null)[className];		//不是IE
 		}else{
 			console.log('是IE');		
@@ -559,9 +559,24 @@ offsetWidth：返回元素的宽度（不包括外边距）
 
 offsetHeight：返回元素的高度（不包括外边距）
 
+
+
 clientWidth：返回元素宽度（不包括边框和外边距）
 
 clientHeight：返回元素高度（不包括边框和外边距）
+
+
+
+#### DOM加载过程
+
+1. 解析HTML结构
+2. 加载外部脚本和样式表文件
+3. 解析并执行脚本代码
+4. DOM树构建完成     //onDOMContentLoaded事件执行
+5. 加载图片等外部资源
+6. 页面加载完毕          //onload事件执行
+
+
 
 ### 事件
 
@@ -955,6 +970,129 @@ window.onscroll = function(){
 }
 ```
 
+##### bubbles属性
+
+bubbles属性的作用就是用来判断当前事件是否支持事件冒泡，如果是结果为true，如果不是结果为false
+
+例如，onclick事件就是冒泡事件，onmouseenter就不是冒泡事件
+
+```js
+<script type="text/javascript">
+	var box = document.querySelector("#box");
+	box.onclick = function(e){
+		
+		console.log("点击事件被触发了");
+		console.log(e.bubbles);		//true
+	}
+	
+	box.onmouseenter = function(e){
+		console.log("鼠标移入事件被触发了");
+		console.log(e.bubbles);		//false
+	}
+</script>
+```
+
+##### eventPhase属性
+
+该属性的值为1、2、3
+
+1：表示由于事件捕获而引起的事件的执行
+
+2：表示事件流中的当前元素
+
+3：表示由于事件冒泡而引起的事件的执行
+
+```js
+<script type="text/javascript">
+	var box = document.querySelector("#box");
+	box.onclick = function(e){
+		console.log(e.eventPhase);
+	}
+</script>
+```
+
+##### button属性
+
+作用是判断点击了鼠标的哪个按钮
+
+0：表示左键，1：表示中间键，2：表示右键
+
+```js
+<script type="text/javascript">
+	document.documentElement.onclick = function(e){
+		console.log(e.button);
+	}
+	
+	document.oncontextmenu = function(e){
+		console.log(e.button);
+	}
+</script>
+```
+
+##### mousewheel事件
+
+该事件为鼠标滚动事件，其事件对象中button属性的值为0，wheelDelta属性表示滚动的方向，如果是负值表示向下滚动，如果是正值表示向上滚动
+
+```js
+<script type="text/javascript">
+	document.onmousewheel = function(e){
+		// console.log(e.type);
+		console.log(e.wheelDelta);		//e.wheelDelta属性的值在不同的浏览器下面返回的值不同，如果是负值表示向下滚动
+		if(e.wheelDelta>0){
+			console.log("你向上滚动了");
+		}else{
+			console.log("你向下滚动了");
+		}
+	}
+</script>
+```
+
+##### onload事件（重要）
+
+当文档中所有的节点都加载完毕后触发该事件，如文档中的所有图片加载完成（即能够正常显示），通常这个事件是给window对象添加的
+
+```js
+<script type="text/javascript">
+	window.onload = function(){
+		console.log('文档内容和节点都加载完成了');
+	}
+</script>
+```
+
+##### onDOMContentLoaded事件
+
+该事件和load事件类似，但是该事件触发的时间要早于load事件，因为该事件会在ODM树渲染完毕后触发，而load事件只有在整个文档加载完毕后触发
+
+注意：该事件需要使用addEventListener方法来添加。
+
+```js
+<script type="text/javascript">
+	window.onload = function(){
+		console.log('文档内容和节点都加载完成了');
+	}
+	
+	window.addEventListener('DOMContentLoaded',function(){
+		console.log('DOM节点加载完成了！');
+	},false)
+</script>
+```
+
+##### onreadystatechange事件
+
+该事件为文档加载状态判断事件。
+
+众所周知，document节点中有一个属性叫做readyState，拥有三个值
+
+loading：加载DOM中
+
+interactive：加载外部资源
+
+complete：加载完成
+
+而readyStateChange事件正是在这个状态发生改变时调用的事件
+
+
+
 ##### 移动端事件
 
 ontouchstart：当手指触摸到屏幕或指定元素时触发
@@ -963,7 +1101,83 @@ ontouchmove：当手指在屏幕或指定元素上移动时触发
 
 ontouchend：当手指从屏幕或指定元素离开时触发
 
+ontouchcancel：当系统停止跟踪触发时触发（如电话接入或者弹出信息，一般在这个操作中做一些暂停游戏类的操作，或者点击通知）
 
+```js
+<script type="text/javascript">
+	
+	var box = document.querySelector("#box");
+	box.ontouchstart = function(e){
+		console.log(e.type);
+	}
+	box.ontouchmove = function(e){
+		console.log(e.type);
+	}
+	
+	box.ontouchend = function(e){
+		console.log(e.type);
+	}
+	
+</script>
+```
+
+TouchEvent对象中我们需要记住的三个属性
+
+touches: TouchList{0: Touch, length: 1}，该属性主要保存放到屏幕上的所有触摸点的相关信息
+
+targetTouches: TouchList{0: Touch, length: 1}，该属性主要保存了和当前元素相关的触摸点信息
+
+changedTouches: TouchList{0: Touch, length: 1}，该属性主要保存了由触摸点变化形成的信息，触摸点从无到有或从有到无都会别记录下来
+
+
+
+#### 事件委托（重点）
+
+> https://www.bilibili.com/video/BV1Xz4y1S7Zd?p=495
+
+事件委托/事件代理：就是利用【事件冒泡】，自己本身做不了的事，让上级来做这个事情，只指定一个事件处理程序，就可以管理某一类型的所有事件。
+
+事件委托就是指将事件委托给祖先元素，然后利用事件冒泡机制和事件对象让该祖先元素下面的所有后代元素可以具有同一类型的事件。
+
+具体事例：
+
+点击li的时候，显示li的内容
+
+```js
+<body>
+	<div id="box">
+		<ul id="list">
+			<li>我是1个元素</li>
+			<li>我是2个元素</li>
+			<li>我是3个元素</li>
+			<li>我是4个元素</li>
+			<li>我是5个元素</li>
+		</ul>
+	</div>
+</body>
+<script type="text/javascript">
+    
+    // 使用事件委托实现
+	var ul = document.querySelector("#list");
+	ul.onclick = function(e){
+		console.log(e.target.innerHTML);
+	}
+	
+	//不使用事件委托实现方法
+	var lis = document.querySelectorAll('li');
+	lis.forEach(item=>{
+		item.onclick = function(){
+			console.log(this);
+		}
+	})
+</script>
+```
+
+事件委托的好处：
+
+上边的例子中，如果我们不使用事件委托的方式，当在每个li绑定click事件之后，如果再新加li元素，那么新加的元素就不回有点击事件，如果用了事件委托，那么新加的li也会向上冒泡，就触发ul的点击事件，从而可以打印li的内容。
+
+### BOM
 
 
 

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Vue</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<style>
+			
+			#box{
+				width: 300px;
+				height: 200px;
+				background-color: #FF4400;
+				position: fixed;
+				right: 0px;
+				bottom: -200px;
+			}
+			span{
+				float: right;
+				width: 20px;
+				height: 20px;
+				border-radius: 50%;
+				background-color: aqua;
+				text-align: center;
+				cursor: pointer;
+			}
+		</style>
+	</head>
+	
+	<body>
+		<div id="box">
+			<span>x</span>
+		</div>
+	</body>
+	<script type="text/javascript">
+		
+		// 页面加载完展示广告
+		window.onload = function(){
+			displauAdv();
+		}
+		
+		// 展示广告
+		function displauAdv(){
+			var adv = document.querySelector("#box");
+			var speed = 5;
+			var timer = setInterval(function(){
+				
+				var advStyle = getStyle(adv);
+				var position = parseInt(advStyle.bottom);
+				if(position == 0){
+					clearInterval(timer);
+				}
+				adv.style.bottom = position+speed+'px';
+			},17)
+		}
+		
+		// 获取外部样式
+		function getStyle(ele){
+			if(window.getComputedStyle){
+				return window.getComputedStyle(ele,null);
+			}else{
+				return ele.currentStyle;
+			}
+		}
+		
+		// 关闭广告
+		var close = document.querySelector("span");
+		close.onclick = function(){
+			document.querySelector("#box").style.display = 'none';
+		}
+	</script>
+</html>
