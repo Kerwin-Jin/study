@@ -1179,11 +1179,84 @@ changedTouches: TouchList{0: Touch, length: 1}，该属性主要保存了由触�
 
 ### BOM
 
+最初由网景公司提出，Browser Object Model浏览器对象模型，它不是一个对象，可以说它时一个对象的集合，里面有很多对象，利用这些对象可以操作浏览器和浏览器中的内容，主要包含如下对象：widnow、location、history、screen、navigator、document等，在众多属性中window属性是BOM中的顶级对象，其他对象都是window对象的属性，只不过这些属性本身也是对象类型。
+
+#### window对象
+
+> https://www.bilibili.com/video/BV1Xz4y1S7Zd?p=497
+
+1. window对象：window对象是BOM中的顶级对象，其他对象是window对象的一个属性，
+2. window对象也是一个全局对象，因为在全局作用域下面定义的所有变量，方法都相当于给window对象绑定的属性或方法，可以使用window的形式来使用这些属性和方法，在平时使用时可以将.`window.` 省略。
+3. 此外，如果是全局的变量或方法，还可以使用`this.` 的形式来调用，因为在全局环境下window == this。
+4. window对象不需要手动创建，当浏览器窗口被打开时，后天会自动创建一个用来管理当前窗口的window对象。当浏览器窗口被关闭时，该对象会被自动销毁。
+
+```js
+<script type="text/javascript">
+    
+	var aaa = 'hello';		//全局变量
+	
+	//全局函数
+	function fn(){
+		console.log(12);
+	}
+	
+	console.log(window.aaa);
+	window.fn();
+
+	console.log(window === this)   //true
+</script>
+```
+
+#### window对象常用方法
+
+alert方法：支持转义字符，不支持标签
+
+```js
+<script type="text/javascript">
+	
+	alert('<li>hello</li>');
+	alert('<li>\nhello\n</li>');
+</script>
+```
 
 
 
+confirm方法：确定返回true，取消返回false
+
+```js
+<script type="text/javascript">
+	
+	var res = window.confirm("确定要删除吗？");
+	console.log(res);
+</script>
+```
 
 
 
+prompt方法：返回值为字符串
 
+```js
+<script type="text/javascript">
+	
+	var str = window.prompt("请输入您的年龄");
+	console.log(str);
+</script>
+```
+
+
+
+isNaN方法：	判断参数是否为NaN，如果是NaN，返回true，否则返回false
+
+isFinite方法：判断参数是否为有限数值
+
+```js
+<script type="text/javascript">
+	
+	var a = 3*"a";
+	console.log(a);
+	
+	console.log(isNaN(a));
+	console.log(isFinite(1/5));
+</script>
+```
 
