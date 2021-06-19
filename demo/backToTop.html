@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Vue</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<style>
+			button{
+				position: fixed;
+				right: 50px;
+				bottom: 50px;
+				display: none;
+			}
+		</style>
+	</head>
+	
+	<body>
+		<h2>我是顶部</h2>
+		<p>我是第1个</p>
+		<p>我是第2个</p>
+		<p>我是第3个</p>
+		<p>我是第4个</p>
+		<p>我是第5个</p>
+		<p>我是第6个</p>
+		<p>我是第7个</p>
+		<p>我是第8个</p>
+		<p>我是第9个</p>
+		<p>我是第10个</p>
+		<p>我是第11个</p>
+		<p>我是第12个</p>
+		<p>我是第13个</p>
+		<p>我是第14个</p>
+		<p>我是第15个</p>
+		<p>我是第16个</p>
+		<p>我是第17个</p>
+		<p>我是第18个</p>
+		<p>我是第19个</p>
+		<p>我是第20个</p>
+		<p>我是第21个</p>
+		<p>我是第22个</p>
+		<p>我是第23个</p>
+		<p>我是第24个</p>
+		<p>我是第25个</p>
+		<p>我是第26个</p>
+		<p>我是第27个</p>
+		<p>我是第28个</p>
+		<p>我是第29个</p>
+		<p>我是第30个</p>
+		<p>我是第31个</p>
+		<p>我是第32个</p>
+		<p>我是第33个</p>
+		<p>我是第34个</p>
+		<p>我是第35个</p>
+		<p>我是第36个</p>
+		<p>我是第37个</p>
+		<p>我是第38个</p>
+		<p>我是第39个</p>
+		<p>我是第40个</p>
+		<p>我是第41个</p>
+		<p>我是第42个</p>
+		<p>我是第43个</p>
+		<p>我是第44个</p>
+		<p>我是第45个</p>
+		<p>我是第46个</p>
+		<p>我是第47个</p>
+		<p>我是第48个</p>
+		<p>我是第49个</p>
+		<p>我是第50个</p>
+		<p>我是第51个</p>
+		<p>我是第52个</p>
+		<p>我是第53个</p>
+		<p>我是第54个</p>
+		<p>我是第55个</p>
+		<p>我是第56个</p>
+		<p>我是第57个</p>
+		<p>我是第58个</p>
+		<p>我是第59个</p>
+		<p>我是第60个</p>
+		<p>我是第61个</p>
+		<p>我是第62个</p>
+		<p>我是第63个</p>
+		<p>我是第64个</p>
+		<p>我是第65个</p>
+		<p>我是第66个</p>
+		<p>我是第67个</p>
+		<p>我是第68个</p>
+		<p>我是第69个</p>
+		<p>我是第70个</p>
+		<p>我是第71个</p>
+		<p>我是第72个</p>
+		<p>我是第73个</p>
+		<p>我是第74个</p>
+		<p>我是第75个</p>
+		<p>我是第76个</p>
+		<p>我是第77个</p>
+		<p>我是第78个</p>
+		<p>我是第79个</p>
+		<p>我是第80个</p>
+		<p>我是第81个</p>
+		<p>我是第82个</p>
+		<p>我是第83个</p>
+		<p>我是第84个</p>
+		<p>我是第85个</p>
+		<p>我是第86个</p>
+		<p>我是第87个</p>
+		<p>我是第88个</p>
+		<p>我是第89个</p>
+		<p>我是第90个</p>
+		<p>我是第91个</p>
+		<p>我是第92个</p>
+		<p>我是第93个</p>
+		<p>我是第94个</p>
+		<p>我是第95个</p>
+		<p>我是第96个</p>
+		<p>我是第97个</p>
+		<p>我是第98个</p>
+		<p>我是第99个</p>
+		<p>我是第100个</p>
+		<button type="button">回到顶部</button>
+	</body>
+	<script type="text/javascript">
+		
+		var docuObj = document.documentElement || widow.body;
+		var btn = document.querySelector("button");
+		window.onscroll = function(){
+			if(docuObj.scrollTop>1500){
+				btn.style.display = 'block';
+			}else{
+				btn.style.display = 'none';
+			}
+		}
+		
+		btn.onclick = goTop;
+		
+		function goTop(){
+			var timer = setInterval(function(){
+				if(document.documentElement.scrollTop != 0){
+					document.documentElement.scrollTop = document.documentElement.scrollTop-100;
+				}else{
+					clearInterval(timer);
+				}
+			},10);
+		}
+	</script>
+</html>

@@ -1209,7 +1209,9 @@ changedTouches: TouchList{0: Touch, length: 1}，该属性主要保存了由触�
 
 #### window对象常用方法
 
-alert方法：支持转义字符，不支持标签
+##### alert
+
+支持转义字符，不支持标签
 
 ```js
 <script type="text/javascript">
@@ -1221,7 +1223,9 @@ alert方法：支持转义字符，不支持标签
 
 
 
-confirm方法：确定返回true，取消返回false
+##### confirm
+
+确定返回true，取消返回false
 
 ```js
 <script type="text/javascript">
@@ -1233,7 +1237,9 @@ confirm方法：确定返回true，取消返回false
 
 
 
-prompt方法：返回值为字符串
+##### prompt
+
+返回值为字符串
 
 ```js
 <script type="text/javascript">
@@ -1245,9 +1251,13 @@ prompt方法：返回值为字符串
 
 
 
-isNaN方法：	判断参数是否为NaN，如果是NaN，返回true，否则返回false
+##### isNaN
 
-isFinite方法：判断参数是否为有限数值
+判断参数是否为NaN，如果是NaN，返回true，否则返回false
+
+##### isFinite
+
+判断参数是否为有限数值
 
 ```js
 <script type="text/javascript">
@@ -1259,4 +1269,90 @@ isFinite方法：判断参数是否为有限数值
 	console.log(isFinite(1/5));
 </script>
 ```
+
+##### open
+
+作用：打开新窗口
+
+window.open('地址','窗口名称','窗口特性')，三个参数都可以省略，如果省略表示打开一个新的空白窗口
+
+参数说明：
+
+​	窗口名称：可以不写，如果不写，那么会多次打开新窗口，如果写，那么会打开一次新窗口，后面再执行open方法时会在上一次打开的窗口里面重新加载页面
+
+​	窗口特性：'width=500 height=300 top=400 left=600'
+
+返回值：返回值是代表新窗口的window对象
+
+```js
+<body>
+	<div id="box">
+		<button type="button">空白窗口</button>
+		<button type="button">指定窗口</button>
+	</div>
+</body>
+<script type="text/javascript">
+	
+	var btns = document.querySelectorAll("button");
+	//打开空白窗口
+	btns[0].onclick = function(){
+		var newWindow = open();
+		newWindow.document.write("<h1>我是新窗口</h1>");
+		newWindow.document.body.style.backgroundColor = 'green';
+	}
+	
+	//打开指定窗口
+	btns[1].onclick = function(){
+		var newWindow = open("https://www.baidu.com",'baiduWindow','width=500 height=300 top=400 left=600');
+	}
+</script>
+```
+
+##### close
+
+关闭窗口
+
+```js
+<body>
+	<div id="box">
+		<button type="button">关闭窗口</button>
+	</div>
+</body>
+<script type="text/javascript">
+	var btn = document.querySelector('button');
+	btn.onclick = function(){
+		window.close();
+	}
+	
+</script>
+```
+
+#### location对象
+
+- location.hostname : 返回web主机的域名
+- location.pathname : 返回当前页面的路径和文件名
+- location.port : 返回web主机的端口（80或443）
+- location.protocol : 返回所使用的的web协议（http或https）
+
+#### navigator对象
+
+window.navigator对象包含了大量有段Web浏览器的信息，在监测浏览器及操作系统上非常有用，这个对象和event一样是一个全局变量，并且是唯一的。
+
+- navigator.appCodeName : 浏览器代码名的字符串表示
+- navigator.appName : 官方浏览器名的字符串表示
+- navigator.appVersion : 浏览器版本信息的字符串表示
+- navigator.userAgent（重要） : 浏览器内核相关的信息，可以从来判断是否是移动端，即是否包含mobile字符串
+- navigator.cookieEnabled : 是否启用cookie，启用返回true，否则返回false
+
+
+
+
+
+
+
+
+
+
+
+
 
