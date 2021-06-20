@@ -23,6 +23,22 @@
 		
 	</body>
 	<script type="text/javascript">
-		console.log(navigator.userAgent.indexOf('Chrome')>1?'是移动端':'不是移动端');
+		var obj1 = {
+			speak(){
+				console.log("hello world");
+			},
+			add(a,b){
+				console.log(a+b);
+			}
+		}
+		
+		var obj2 = {
+			
+		}
+		
+		obj1.speak.call(obj2);
+		obj1.speak.apply(obj2);
+		obj1.add.call(obj2,1,4);
+		obj1.add.apply(obj2,[1,5]);
 	</script>
 </html>

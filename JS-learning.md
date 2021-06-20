@@ -1344,6 +1344,82 @@ window.navigator对象包含了大量有段Web浏览器的信息，在监测浏�
 - navigator.userAgent（重要） : 浏览器内核相关的信息，可以从来判断是否是移动端，即是否包含mobile字符串
 - navigator.cookieEnabled : 是否启用cookie，启用返回true，否则返回false
 
+### 重排与重绘
+
+#### 重排
+
+重排也叫回流。由于元素尺寸、位置的改变影响了页面布局，这种行为就叫做重排，也叫回流。
+
+如果只是改变了元素的外观，我们把这种行为称之为重绘。
+
+#### 重绘
+
+当render tree中的一些元素需要更新属性，而这些属性只是影响元素的外观，风格，而不影响布局的，比如background-color，则被称为重绘
+
+！！！注意 : **回流必将引起重绘，而重绘不一定会引起回流。**
+
+#### 提高浏览器性能
+
+- 不要一项一项去改变样式，尽可能一口去写完，（可以写在一起，不要被打断就行，最好使用styleText）
+- 读写DOM尽量放在一块
+- 使用文档碎片，var lis = document.createDocumentFragment();
+
+#### DocumentFragment
+
+```html
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Vue</title>
+	</head>
+	<body>
+		<div id="box">
+			<ul id="list"></ul>
+		</div>
+	</body>
+	<script>
+		const list = document.querySelector("#list");
+		const fragment = document.createDocumentFragment();
+		for(let i=0;i<5;i++){
+			let li = document.createElement("li");
+			li.innerHTML = `item${i+1}`;
+			fragment.appendChild(li);
+		}
+		list.appendChild(fragment);
+	</script>
+</html>
+```
+
+#### call和apply
+
+这两个方法的作用是一样的，都是用来扩展函数的作用域
+
+1. call的格式：函数.call(借用者, 参数1,参数2,参数3...);
+2. apply的格式：函数.apply(借用者, [参数1,参数2,参数3...]);
+
+```js
+<script type="text/javascript">
+	var obj1 = {
+		speak(){
+			console.log("hello world");
+		},
+		add(a,b){
+			console.log(a+b);
+		}
+	}
+	var obj2 = {
+		
+	}
+	obj1.speak.call(obj2);
+	obj1.speak.apply(obj2);
+	obj1.add.call(obj2,1,4);
+	obj1.add.apply(obj2,[1,5]);
+</script>
+```
+
+### 正则表达式
+
 
 
 
