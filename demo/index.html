@@ -23,22 +23,11 @@
 		
 	</body>
 	<script type="text/javascript">
-		var obj1 = {
-			speak(){
-				console.log("hello world");
-			},
-			add(a,b){
-				console.log(a+b);
-			}
-		}
+		var reg = /a/;
 		
-		var obj2 = {
-			
-		}
+		var str = 'abc';
 		
-		obj1.speak.call(obj2);
-		obj1.speak.apply(obj2);
-		obj1.add.call(obj2,1,4);
-		obj1.add.apply(obj2,[1,5]);
+		var res = reg.test(str);
+		console.log(res);
 	</script>
 </html>
