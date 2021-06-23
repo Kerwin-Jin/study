@@ -23,11 +23,14 @@
 		
 	</body>
 	<script type="text/javascript">
-		var reg = /a/;
+		var data = '{"name":"kerwin","age":15}';
 		
-		var str = 'abc';
+		var user = JSON.parse(data);
 		
-		var res = reg.test(str);
-		console.log(res);
+		console.log(user.name);
+		console.log(user.age);
+		
+		var data_bak = JSON.stringify(user);
+		console.log(data_bak);
 	</script>
 </html>

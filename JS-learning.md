@@ -1461,7 +1461,60 @@ window.navigator对象包含了大量有段Web浏览器的信息，在监测浏�
 
 ### JSON
 
-简介
+#### 简介
+
+什么是 JSON：JavaScript Object Notation的缩写，它是一种数据格式，本质是字符串
+
+构成：简单值、对象、数组
+
+注意：
+
+1. JSON中对象的键值对，键必须用双引号包起来
+2. JSON中的字符串必须用双引号包起来
+
+```json
+{
+    "name":"kersin",
+    "age":13,
+    "gender":"男",
+    "friends":[
+        {
+            "name":"jdfk",
+            "age":17
+        },
+        {
+            "name":"jdffdk",
+            "age":18
+        }
+    ]
+}
+```
+
+JSON是window下的一个属性，本身也是一个对象
+
+window.JSON可以查看
+
+stringify方法、parse方法
+
+```js
+<script type="text/javascript">
+	var data = '{"name":"kerwin","age":15}';
+	
+	var user = JSON.parse(data);
+	
+	console.log(user.name); 
+	console.log(user.age);
+	
+	var data_bak = JSON.stringify(user);
+	console.log(data_bak);
+</script>
+```
+
+
+
+
+
+
 
 
 
