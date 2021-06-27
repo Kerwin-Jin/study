@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Vue</title>
+		<link rel="stylesheet" type="text/css" href="https://at.alicdn.com/t/font_2535714_dw5oarwf8id.css"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<style>
+			body{
+				margin: 0;
+				padding: 0;
+				color: #666;
+			}
+			.container.green h2{
+				color: green;
+			}
+			.container.red h2{
+				color: red;
+			}
+			.container.orange h2{
+				color: orange;
+			}
+			.container.green #footer .item.active {
+				color: green;
+			}
+			.container.red #footer .item.active {
+				color: red;
+			}
+			.container.orange #footer .item.active {
+				color: orange;
+			}
+			#header{
+				height: 60px;
+				text-align: center;
+				position: relative;
+			}
+			#yifu{
+				position: absolute;
+				right: 5px;
+				top: 5px;
+			}
+			#footer{
+				display: flex;
+				justify-content: space-around;
+				height: 50px;
+				line-height: 50px;
+				text-align: center;
+				position: fixed;
+				bottom: 0;
+				left: 0;
+				width: 100%;
+			}
+			.color-list{
+				width: 50px;
+				position: absolute;
+				right: 0px;
+				top:25px;
+			}
+			.color.item{
+				height: 20px;
+			}
+			.color.item:nth-child(1){
+				background-color: red;
+			}
+			.color.item:nth-child(2){
+				background-color: green;
+			}
+			.color.item:nth-child(3){
+				background-color: orange;
+			}
+			.color-list.hide{
+				display: none;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container red">
+			<header id="header">
+				<h2>小野森森聊前端</h2>
+			   <span id="yifu"><i class="iconfont icon-PDM_style"></i></span>
+			   <div class="color-list hide">
+				   <div class="color item" data-color="red"></div>
+				   <div class="color item" data-color="green"></div>
+				   <div class="color item" data-color="orange"></div>
+			   </div>
+		   </header>
+		   <footer id="footer">
+			   <div class="item active">首页</div>
+			   <div class="item">推荐</div>
+			   <div class="item">我的</div>
+		   </footer>
+		</div>
+	  
+	</body>
+	
+	<script>
+		;(function(doc){
+			const oContainer = doc.querySelector(".container"),
+				  oChangeSkinBtn = doc.querySelector('#yifu'),
+				  oColorList = doc.querySelector(".color-list"),
+				  oTabs = doc.querySelector("#footer");
+				  
+			const init = ()=>{
+				bindEvent();
+			}
+			
+			
+			function bindEvent(){
+				oChangeSkinBtn.addEventListener('click',showColorList,false);
+				oColorList.addEventListener('click',handleColorClick,false);
+				oTabs.addEventListener('click',changeTab,false);
+			}
+			
+			
+			function showColorList(){
+				const className = oColorList.className
+				if(className.includes('hide')){
+					oColorList.className = 'color-list';
+				}else{
+					oColorList.className = 'color-list hide';
+				}
+				
+			}
+			
+			function handleColorClick(e){
+				const target = e.target;
+				oContainer.className = 'container ' + target.dataset.color;
+			}
+			
+			function changeTab(e){
+				if(e.target.tagName.toLowerCase() == 'div'){
+					e.target.className = 'item active';
+				}
+			}
+			
+			init();
+		})(document)
+	</script>
+</html>
