@@ -3,6 +3,7 @@
 	<head>
 		<meta charset="utf-8">
 		<title>Vue</title>
+		<link rel="stylesheet" type="text/css" href="https://at.alicdn.com/t/font_2535714_dw5oarwf8id.css"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<!-- <script src="https://cdn.bootcdn.net/ajax/libs/vue/2.6.12/vue.min.js"></script> -->
 		<!-- <script src="https://cdn.bootcdn.net/ajax/libs/axios/0.21.1/axios.min.js"></script> -->
@@ -15,22 +16,107 @@
 		<!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> -->
 		<!-- <script src="https://cdn.bootcdn.net/ajax/libs/axios/0.21.1/axios.js"></script> -->
 		<style>
-			
+			body{
+				color: #666;
+			}
+			.container.green h2{
+				color: green;
+			}
+			.container.red h2{
+				color: red;
+			}
+			.container.orange h2{
+				color: orange;
+			}
+			.container.green #footer .item.active {
+				color: green;
+			}
+			.container.red #footer .item.active {
+				color: red;
+			}
+			.container.orange #footer .item.active {
+				color: orange;
+			}
+			#header{
+				text-align: center;
+				color: #666;
+				position: relative;
+			}
+			#yifu{
+				position: absolute;
+				right: 5px;
+				top: 5px;
+			}
+			#footer{
+				display: flex;
+				justify-content: space-around;
+				height: 50px;
+				line-height: 50px;
+				text-align: center;
+				position: fixed;
+				bottom: 0;
+				left: 0;
+				width: 100%;
+			}
+			.color-list{
+				width: 80px;
+				height: 50px;
+				position: absolute;
+				right: 0px;
+				top:20px;
+			}
+			.color-list.hide{
+				display: none;
+			}
 		</style>
 	</head>
-	
 	<body>
-		
+		<div class="container red">
+			<header id="header">
+				<h2>小野森森聊前端</h2>
+			   <span id="yifu"><i class="iconfont icon-PDM_style"></i></span>
+			   <div class="color-list hide">
+				   <div class="color item" data-color="red">1</div>
+				   <div class="color item" data-color="green">2</div>
+				   <div class="color item" data-color="orange">3</div>
+			   </div>
+		   </header>
+		   <footer id="footer">
+			   <div class="item active">首页</div>
+			   <div class="item">推荐</div>
+			   <div class="item">我的</div>
+		   </footer>
+		</div>
+	  
 	</body>
-	<script type="text/javascript">
-		var data = '{"name":"kerwin","age":15}';
-		
-		var user = JSON.parse(data);
-		
-		console.log(user.name);
-		console.log(user.age);
-		
-		var data_bak = JSON.stringify(user);
-		console.log(data_bak);
+	
+	<script>
+		;(function(doc){
+			const oContainer = doc.querySelector(".container"),
+				  oChangeSkinBtn = doc.querySelector('#yifu'),
+				  oColorList = doc.querySelector(".color-list");
+			
+			
+			const init = ()=>{
+				bindEvent();
+			}
+			
+			
+			function bindEvent(){
+				oChangeSkinBtn.addEventListener('click',showColorList,false);
+			}
+			
+			
+			function showColorList(){
+				console.log(oColorList.className);
+				if(oColorList.className.includes('hide')){
+					oColorList.className = 'color-list';
+				}else{
+					oColorList.className = 'color-list hide';
+				}
+			}
+			
+			init();
+		})(document)
 	</script>
 </html>

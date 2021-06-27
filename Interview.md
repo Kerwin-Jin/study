@@ -964,10 +964,10 @@ var p = new Promise((resolve,reject)=>{
     })
 })
 
-//异步
-p.then(res=>{
-    console.log(res)
-})
+    //异步
+    p.then(res=>{
+        console.log(res)
+    })
 
 console.log("hello kerwin")
 

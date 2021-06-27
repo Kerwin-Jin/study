@@ -17,7 +17,7 @@
 <script>
 	var app = document.querySelect("#app");
     var obj = {};
-    obj.defineProperty(obj,"name",{
+    Object.defineProperty(obj,"name",{
         set(value){
             console.log("我被设置了",value);
         },
@@ -70,7 +70,7 @@ Vue就是基于MVVM模式的一种框架，中间的vm对视图（View）和Modu
     .bb{font-size: 40px;}
     .cc{font-weight: bold;}
 </style>
-</head>
+
 <body>
     <div id="app">
         <div :class="classArr">动态切换class-对象写法</div>
