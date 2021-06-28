@@ -8,24 +8,24 @@
 
 给一个对象添加属性的时候,可以用Object.defineProperty()这个方法来进行添加,Vue也是利用这个原理进行属性的监听
 
-```html
-<body>
-    <div id="app">
-    	
-    </div>
-</body>
+```js
 <script>
-	var app = document.querySelect("#app");
-    var obj = {};
-    Object.defineProperty(obj,"name",{
-        set(value){
-            console.log("我被设置了",value);
-        },
-        get(){
-            console.log("我被获取了");
-        }
-    })
-</script>
+		var p = {
+			firstName:'张',
+			lastName:'三'
+		}
+		
+		Object.defineProperty(p,'fullName',{
+			set(newVal){
+				var arr = newVal.split('-');
+				this.firstName = arr[0];
+				this.lastName = arr[1];
+			},
+			get(){
+				return this.firstName + '-' + this.lastName;
+			}
+		})
+	</script>
 ```
 
 ### MVVM
@@ -341,6 +341,10 @@ v-model对多选框进行绑定时，是以数组进行存储的，必须在标�
     })
 </script>
 ```
+
+### 计算属性
+
+
 
 ### 计算属性与方法的区别
 

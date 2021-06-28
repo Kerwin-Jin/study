@@ -21,23 +21,23 @@
 	</head>
 	<body>
 		<div id="app">
-			姓：<input type="text" v-model="firstName"/><br>
-			名：<input type="text" v-model="lastName"/><br>
-			全名：<div>{{getFullName()}}</div>
+			姓：<input type="text" name="" v-model="firstName"/>
+			名：<input type="text" name="" v-model="lastName"/>
+			<div>{{fullName}}</div>
 		</div>
-	  
+		
 	</body>
 	
 	<script>
 		var vm = new Vue({
 			el:"#app",
 			data:{
-				firstName:"liu",
-				lastName:"jinfei"
+				firstName:'liu',
+				lastName:'jinfei'
 			},
-			methods:{
-				getFullName(){
-					return this.firstName+"-"+this.lastName;
+			computed:{
+				fullName(){
+					return this.firstName+this.lastName;
 				}
 			}
 		})
