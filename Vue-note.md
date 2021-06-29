@@ -60,7 +60,9 @@ Vue就是基于MVVM模式的一种框架，中间的vm对视图（View）和Modu
 
 ```
 
-### Class属性为对象或数组
+### 绑定样式
+
+**Class属性为对象或数组**
 
 见代码注释：
 
@@ -96,7 +98,7 @@ Vue就是基于MVVM模式的一种框架，中间的vm对视图（View）和Modu
 
 ### v-for知识
 
-#### 对象遍历
+**对象遍历**
 
 用v-for也可以进行对象的遍历，v-for=” value,key,index in obj”
 
@@ -128,7 +130,7 @@ Vue就是基于MVVM模式的一种框架，中间的vm对视图（View）和Modu
 </script>
 ```
 
-#### key值
+**key值**
 
 作用：跟踪每个节点的身份，从而重用和重新排序现有元素
 
@@ -344,6 +346,60 @@ v-model对多选框进行绑定时，是以数组进行存储的，必须在标�
 
 ### 计算属性
 
+1. 计算属性：要显示的数据不存在，要通过计算得来
+2. fullName函数底层用到的是对象的setter和getter方法
+3. 执行的时机
+   - 初始显示会执行一次，得到初始值去显示
+   - 当依赖的数据发生改变时会被再次调用
+4. 优势：与methods相比，**内部有缓存机制，效率更高**
+5. 备注：计算属性是用于直接读取使用的，不要加()
+
+如果计算属性是个函数，那么Vue默认只是给你调用get，如果是一个对象，那么里边就可以写get和set
+
+```js
+<script>
+	var vm = new Vue({
+		el:"#app",
+		data:{
+			firstName:'liu',
+			lastName:'jinfei'
+		},
+		computed:{
+            //简写，相当于只制定了get，没有指定set
+			fullName(){
+				console.log("computed被调用了")
+				return this.firstName+this.lastName;
+			}
+		}
+	})
+</script>
+
+<script>
+	var vm = new Vue({
+		el:"#app",
+		data:{
+			firstName:'liu',
+			lastName:'jinfei'
+		},
+		computed:{
+            //完整写法：set和get都指定了
+			fullName:{
+                set(value){
+                    //set方法
+                    var arr = value.split('-');
+                    this.firstName = arr[0];
+                    this.lastName = arr[1];
+                },
+                get(){
+                    //get方法
+                    return this.firstName + this.lastName;
+                }
+            }
+		}
+	})
+</script>
+```
+
 
 
 ### 计算属性与方法的区别
@@ -352,6 +408,70 @@ v-model对多选框进行绑定时，是以数组进行存储的，必须在标�
 | ------------------------------------------------------------ | ----------------------------------------------------- |
 | 必须要有return值，这点是不能取代methods的                    | 不一定要有return值，也可能只是逻辑处理，没有返回值    |
 | 有缓存。computed比较聪明，多个地方调用的话如果值没改变就只计算一遍 | 没有缓存。methods是地地道道的老实人，每次调用都会执行 |
+
+### watch监视属性
+
+1. 当被监视的属性变化时，回调函数自动调用，进行相关操作
+
+2. 属性必须存在，才能进行监视！！！
+
+3. 监视的两种写法：
+
+   - new Vue时传入watch配置
+   - 通过vm.$watch监视
+
+4. computed与watch的区别：
+
+   - 只要是computed能完成的功能，watch都可以完成
+   - watch能完成的功能，computed不一定能完成，例如：watch可以进行异步操作
+
+5. 备注：
+
+   - 所有Vue所调用的（管理）的函数，都不要写箭头函，例如：watch中的函数，computed中的函数
+
+   - 所有不是被Vue所调用（管理）的函数都要写成箭头函数，例如：定时器的回调，ajax的回调等等
+
+   - watch就是Vue给我们提供的一个监测数据改变的手段，至于数据发生改变后，要做什么，得看具体的业务逻辑，
+
+     例如：
+
+     ​	需要新的值、旧的值做比较，决定接下来要干什么
+
+     ​	不要值，只要数据改变了，就要发请求等等
+
+```js
+<body>
+	<div id="app">
+		姓：<input type="text" name="" v-model="firstName"/>
+		名：<input type="text" name="" v-model="lastName"/>
+		<div>{{fullName}}</div>
+	</div>
+</body>
+<script>
+	var vm = new Vue({
+		el:"#app",
+		data:{
+			firstName:'liu',
+			lastName:'jinfei',
+			fullName:'',
+		},
+		watch:{
+			firstName(newValue,oldValue){
+                console.log('新值：',newValue,'旧值：',oldValue);
+				this.fullName = this.firstName + '-' +this.lastName;
+			},
+			lastName:{
+				immediate:true,
+				handler(){
+					this.fullName = this.firstName + '-' +this.lastName;
+				}
+			}
+		}
+	})
+</script>
+```
+
+
 
 ### mixins
 

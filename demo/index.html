@@ -25,19 +25,25 @@
 			名：<input type="text" name="" v-model="lastName"/>
 			<div>{{fullName}}</div>
 		</div>
-		
 	</body>
-	
 	<script>
 		var vm = new Vue({
 			el:"#app",
 			data:{
 				firstName:'liu',
-				lastName:'jinfei'
+				lastName:'jinfei',
+				fullName:'',
 			},
-			computed:{
-				fullName(){
-					return this.firstName+this.lastName;
+			watch:{
+				firstName(newValue,oldValue){
+					console.log('新值：',newValue,'旧值：',oldValue);
+					this.fullName = this.firstName + '-' +this.lastName;
+				},
+				lastName:{
+					immediate:true,
+					handler(){
+						this.fullName = this.firstName + '-' +this.lastName;
+					}
 				}
 			}
 		})
