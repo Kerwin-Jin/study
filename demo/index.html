@@ -21,29 +21,28 @@
 	</head>
 	<body>
 		<div id="app">
-			姓：<input type="text" name="" v-model="firstName"/>
-			名：<input type="text" name="" v-model="lastName"/>
-			<div>{{fullName}}</div>
+			<input type="text" placeholder="请输入关键字" v-model="keyWord"/>
+			<ul>
+				<li v-for="person in fmtPersons">{{person.name}}</li>
+			</ul>
 		</div>
 	</body>
 	<script>
 		var vm = new Vue({
 			el:"#app",
 			data:{
-				firstName:'liu',
-				lastName:'jinfei',
-				fullName:'',
+				keyWord:'',
+				persons:[
+					{name:'马丽'},
+					{name:'马冬梅'},
+					{name:'陈学冬'},
+					{name:'张学友'}
+				]
 			},
-			watch:{
-				firstName(newValue,oldValue){
-					console.log('新值：',newValue,'旧值：',oldValue);
-					this.fullName = this.firstName + '-' +this.lastName;
-				},
-				lastName:{
-					immediate:true,
-					handler(){
-						this.fullName = this.firstName + '-' +this.lastName;
-					}
+			computed:{
+				fmtPersons(){
+					const {persons,keyWord} = this;
+					return persons.filter(p=>p.name.indexOf(keyWord)!=-1);
 				}
 			}
 		})
