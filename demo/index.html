@@ -22,8 +22,11 @@
 	<body>
 		<div id="app">
 			<input type="text" placeholder="请输入关键字" v-model="keyWord"/>
+			<button @click="sortType = 1">升序</button>
+			<button @click="sortType = 2">降序</button>
+			<button @click="sortType = 0">原顺序</button>
 			<ul>
-				<li v-for="person in fmtPersons">{{person.name}}</li>
+				<li v-for="person in fmtPersons">{{person.name}}---{{person.age}}岁</li>
 			</ul>
 		</div>
 	</body>
@@ -32,17 +35,30 @@
 			el:"#app",
 			data:{
 				keyWord:'',
+				sortType:0,
 				persons:[
-					{name:'马丽'},
-					{name:'马冬梅'},
-					{name:'陈学冬'},
-					{name:'张学友'}
+					{name:'马丽',age:45},
+					{name:'马冬梅',age:32},
+					{name:'陈学冬',age:35},
+					{name:'张学友',age:25}
 				]
 			},
 			computed:{
 				fmtPersons(){
-					const {persons,keyWord} = this;
-					return persons.filter(p=>p.name.indexOf(keyWord)!=-1);
+					const {persons,keyWord,sortType} = this;
+					let arr = persons.filter(p=>p.name.indexOf(keyWord)!=-1);
+
+					if(sortType){
+						arr.sort((a,b)=>{
+							if(sortType=== 1){
+								return a.age - b.age;
+							}else{
+								return b.age - a.age;
+							}
+						})
+					}
+
+					return arr;
 				}
 			}
 		})
