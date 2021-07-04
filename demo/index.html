@@ -21,53 +21,31 @@
 	</head>
 	<body>
 		<div id="app">
-			<form @submit.prevent= "submit">
-				账号：<input type="text" v-model="userInfo.account"/>
-				<br><br>
-				密码：<input type="password" v-model="userInfo.password"/>
-				<br><br>
-				性别：<input type="radio" name="gender" value="male" v-model="userInfo.gender"/>男
-				<input type="radio" name="gender" value="female" v-model="userInfo.gender"/>女
-				<br><br>
-				爱好：<input type="checkbox" name="hobby" value="smoke" v-model="userInfo.hobby"/>抽烟
-				<input type="checkbox" name="hobby" value="drink" v-model="userInfo.hobby"/>喝酒
-				<input type="checkbox" name="hobby" value="drive" v-model="userInfo.hobby"/>开车
-				<br><br>
-				所属校区：
-				<select name="city" v-model="userInfo.city">
-					<option value ="">请选择校区</option>
-					<option value ="beijing">北京</option>
-					<option value ="shagnhai">上海</option>
-					<option value ="shenzhen">深圳</option>
-					<option value ="wuhan">武汉</option>
-				</select>
-				<br><br>
-				其他信息：<textarea name="info" cols="30" rows="10" v-model="userInfo.info"></textarea>
-				<br><br>
-				<input type="checkbox" v-model="userInfo.agree"/>阅读并接受<a href="https://www.baidu.com">《用户协议》</a>
-				<br><br>
-				<button>提交</button>
-			</form>
+			<h2 :style="{opacity}">分手了怎么办？</h2>
+			<button @click="disapper">消失</button>
 		</div>
 	</body>
 	<script>
-		var vm = new Vue({
+		new Vue({
 			el:"#app",
 			data:{
-				userInfo:{
-					account:'',
-					password:'',
-					gender:'',
-					hobby:[],
-					city:'',
-					info:'',
-					agree:false
-				}
+				opacity:0.5
 			},
 			methods:{
-				submit(){
-					console.log(this.userInfo);
+				disapper(){
+					console.log("我小时候了");
+					this.$destroy();
 				}
+			},
+			mounted(){
+				this.timer = setInterval(()=>{
+					console.log("定时器被调用了");
+					this.opacity-=0.01;
+					if(this.opacity <= 0) this.opacity = 1;
+				},16);
+			},
+			beforeDestroy(){
+				clearInterval(this.timer);
 			}
 		})
 	</script>
