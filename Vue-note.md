@@ -1043,7 +1043,7 @@ destroyed()
 
 在这里可以做一些取消定时器的操作，也可以做一些window事件的解绑操作等等
 
-### 指令
+### 自定义指令
 
 之前的v-for、v-bind、v-if 等等都是Vue给定义的指令，我们也可以来定义自己的组件
 
@@ -1095,6 +1095,10 @@ Vue.directive("hello",function(el,binding){
 })
 ```
 
+### 自定义插件
+
+
+
 ### nextTick
 
 this.$nextTick是Vue提供的一个黑魔法，他在这里呢，能给你一个时间点，什么时间点呢？什么时候dom插入完成了，他会给你提供一个回调函数，你用这个的话就能实现一些特别需要依赖dom实例化完之后干的一些事，比如进行new Swiper的初始化
@@ -1145,7 +1149,7 @@ this.$nextTick是Vue提供的一个黑魔法，他在这里呢，能给你一个
 	</script>
 ```
 
-
+### 
 
 ### 虚拟dom
 
@@ -1186,6 +1190,49 @@ this.$nextTick是Vue提供的一个黑魔法，他在这里呢，能给你一个
 		})
 	</script>
 ```
+
+```js
+//moment.js
+<script src="https://cdn.bootcdn.net/ajax/libs/moment.js/2.29.1/moment.min.js"></script> 
+<body>
+		<div id="app">
+			{{date}}
+			<p>
+				TIME1现在是: {{handleDate()}}
+			</p>
+			<p>
+				TIME2现在是: {{date | dateFilter('dd HH:mm')}}
+			</p>
+		</div>
+	</body>
+	<script>
+		
+		Vue.config.productionTip = false;		//取消报警提示
+		
+		new Vue({
+			el:"#app",
+			data:{
+				date:Date.now()
+			},
+			methods:{
+				handleDate(){
+					return moment(this.date).format('YYYY-MM-DD hh:mm:ss');
+				}
+			},
+			filters:{
+                //过滤器第一个参数默认是前面的值，后边可以写自己的参数
+				dateFilter(value,arg = 'YYYY-MM-DD hh:mm:ss'){
+					console.log(value,arg);
+					return moment(value).format(arg);
+				}
+			}
+		})
+	</script>
+```
+
+
+
+
 
 ### Vue cli
 

@@ -6,6 +6,7 @@
 		<!-- <link rel="stylesheet" type="text/css" href="https://at.alicdn.com/t/font_2535714_dw5oarwf8id.css"/> -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<script src="https://cdn.bootcdn.net/ajax/libs/vue/2.6.12/vue.js"></script>
+		<script src="https://cdn.bootcdn.net/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 		<!-- <script src="https://cdn.bootcdn.net/ajax/libs/axios/0.21.1/axios.min.js"></script> -->
 		<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/> -->
 		<!-- <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css"> -->
@@ -21,7 +22,7 @@
 	</head>
 	<body>
 		<div id="app">
-			{{date | handleDate}}
+			<p v-str-upper="'red'">{{text}}</p>
 		</div>
 	</body>
 	<script>
@@ -31,12 +32,13 @@
 		new Vue({
 			el:"#app",
 			data:{
-				date:Date.now()
+				text:'hello@world'
 			},
-			filters:{
-				handleDate(value,arg="fjskdffdkjsfk"){
-					console.log(value,arg);
-					return "hello vue";
+			directives:{
+				"str-upper"(el,binding){
+					console.log(el);
+					console.log(binding.value);
+					el.innerHTML = el.innerHTML.toUpperCase();
 				}
 			}
 		})
