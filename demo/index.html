@@ -22,24 +22,20 @@
 	</head>
 	<body>
 		<div id="app">
-			<p v-str-upper="'red'">{{text}}</p>
+			<h1>{{text}}</h1>
 		</div>
 	</body>
 	<script>
 		
 		Vue.config.productionTip = false;
+
+		const school = Vue.extend();
+		console.log(typeof school);
 		
 		new Vue({
 			el:"#app",
 			data:{
-				text:'hello@world'
-			},
-			directives:{
-				"str-upper"(el,binding){
-					console.log(el);
-					console.log(binding.value);
-					el.innerHTML = el.innerHTML.toUpperCase();
-				}
+				text:'hello@WORLD'
 			}
 		})
 	</script>

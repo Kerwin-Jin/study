@@ -1097,6 +1097,69 @@ Vue.directive("hello",function(el,binding){
 
 ### 自定义插件
 
+插件的定义：是一个包含install方法的对象
+
+自定义插件kerwin.js
+
+```js
+// 自定义插件
+
+const kerwin = {};
+
+kerwin.install = function(Vue,options){
+	
+	
+	// 添加指令
+	Vue.directive('up-text',function(el,binding){
+		el.innerHTML = el.innerHTML.toUpperCase();
+	})
+	
+	Vue.directive('low-text',function(el,binding){
+		el.innerHTML = el.innerHTML.toLowerCase();
+	})
+	
+	Vue.projectName = '管理系统';
+	Vue.version = 'v1.0';
+	Vue.showInfo = function(){
+		console.log('我是一些信息');
+	}
+	
+	Vue.prototype.$random = function(min,max){
+		return Math.floor(Math.random()*(max-min)+min);
+	}
+}
+```
+
+使用插件
+
+```js
+//引入插件
+<script src="./kerwin.js"></script>
+<body>
+		<div id="app">
+			<h1 v-up-text>{{text}}</h1>
+			<h1 v-low-text>{{text}}</h1>
+			<h3>{{$random(1,10)}}</h3>
+		</div>
+	</body>
+	<script>
+	
+		// 使用插件
+		Vue.use(kerwin);
+		
+		console.log(Vue.projectName);
+		console.log(Vue.version);
+		Vue.showInfo();
+		
+		new Vue({
+			el:"#app",
+			data:{
+				text:'hello@WORLD'
+			}
+		})
+	</script>
+```
+
 
 
 ### nextTick
