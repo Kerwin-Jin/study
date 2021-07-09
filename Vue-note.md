@@ -1160,9 +1160,21 @@ kerwin.install = function(Vue,options){
 	</script>
 ```
 
+### VueComponent与Vue
 
-
-### nextTick
+1. 如何定义一个组件？使用Vue.extend(options)去创建
+2. School的本质是一个构造函数，我们以后去写<School><School>,Vue帮我们去new School
+3. Vue.extend(options)中的options是配置对象，这个配置对象几乎和new Vue时的那个options一样，区别如下：
+   - 不能写el去指定容器，原因：所有组件实例最终要被一个vm所管理，vm中会指定好el
+   - data必须写成函数：原因：为了确保多个组件中的数据互不干扰
+   - 组件的模板结构，要配置在template属性中
+4. 所有的组件定义后，必须注册才能使用，注册分为：全局注册，局部注册
+5. 特别注意：
+   - School确实是构造函数，但不是我们亲手写的School，是Vue.extend生成的
+   - Vue.extend调用的返回值是VueComponent构造函数，所以new School其实就是在new VueComponent。
+   - 所谓组件实例，就是VueCompoent创建的实例，简称；所有Vue的实例，就是Vue创建的实例，简称vm
+6. 一个最最重要的关系
+   - VueComponent继承了Vue!!
 
 this.$nextTick是Vue提供的一个黑魔法，他在这里呢，能给你一个时间点，什么时间点呢？什么时候dom插入完成了，他会给你提供一个回调函数，你用这个的话就能实现一些特别需要依赖dom实例化完之后干的一些事，比如进行new Swiper的初始化
 

@@ -22,21 +22,20 @@
 	</head>
 	<body>
 		<div id="app">
-			<h1>{{text}}</h1>
+			
 		</div>
 	</body>
 	<script>
 		
-		Vue.config.productionTip = false;
-
-		const school = Vue.extend();
-		console.log(typeof school);
+		// Vue.config.productionTip = false;
+		var school = Vue.extend();
+		var s = new school();
+		console.log(s);
 		
-		new Vue({
-			el:"#app",
-			data:{
-				text:'hello@WORLD'
-			}
+		Vue.prototype.xyz = 'hwoole';
+
+		var vm = new Vue({
+			el:'#app'
 		})
 	</script>
 </html>
