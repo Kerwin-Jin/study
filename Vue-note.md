@@ -1593,6 +1593,25 @@ this.$router.push({name:"路由名字",params:{filmId:id}})来进行跳转
 
 #### 路由模式
 
+路由器的两种工作模式
+
+hash模式：
+
+- 对于一个url来说，什么是hash值？——#及其后面的内容就是hash值
+- hash值不回包含在http请求中，即：hash值不回带给服务器
+- hash模式：
+  - 地址中永远带着#号，不美观
+  - 若以后将地址通过第三方手机app分享，若app校验严格，则地址会被标记为不合法
+  - 兼容性较好
+
+history模式：
+
+- 地址干净，美观
+- 兼容性和hash模式相比略差
+- 应用部署上线时需要后端人员支持，解决刷新页面服务端404的问题
+
+
+
 Vue给提供了两种路由模式，一种是带#号的，这种叫做hash模式，也是默认的模式
 
 另外一种是history模式，需要在index.js配置，如下：
@@ -1635,7 +1654,7 @@ const router = new VueRouter({
   routes:routes
 })
 
-//全局路由守卫
+//全局前置路由守卫
 router.beforeEach((to, from, next)=>{
   const auth = ["/center","/order","/money","/card"]
 
@@ -1651,6 +1670,16 @@ router.beforeEach((to, from, next)=>{
   }
 })
 
+// 全局后置路由守卫，初始化时执行，每次路由切换后执行
+// 需要在每条路由下的meta对象中加一个自定义属性，这里加了title
+router.aferEach((to,from)=>{
+    console.log("afterEach",to,from);
+    if(to.meta.title){
+        document.title = to.meta.title;	//修改网页的title
+    }else{
+        document.title = "xxx系统";
+    }
+})
 
 //将该对象导出去，让main.js用
 export default router
@@ -1666,13 +1695,15 @@ export default router
 //局部路由守卫
 <script>
 export default {
-
     beforeRouteEnter(to,from,next){
 		if(!localStorage.getItem("token")){
           next("/login")   //next("/ligon")加参数表示跳转到指定的地址
         }else{
           next()		   //next()不加参数表示直接放行
         }
+    },
+    beforeRouteLeave(to,from,next){
+        //...
     },
     mounted(){
         
@@ -1826,6 +1857,16 @@ methods:{
 ```
 
 ### Vuex
+
+#### 是什么
+
+Vuex是专门在Vue中实现集中式状态管理的一个插件，对vue应用中多个组件的共享状态进行集中式的管理（读/写）,也可以认为是一种组件间通信的方式，且适用于任意组件间通信。
+
+什么时候用Vuex？
+
+- 多个组件依赖于同一状态
+- 来自不通组件的行为需要变更同一状态
+- 多个组件要共享状态
 
 #### 同步（组件通信）
 
