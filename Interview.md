@@ -1450,6 +1450,28 @@ toSearch(){
 
 2.修改Vue原型上的push和replace方法（优秀）
 
+```js
+
+// 将原有的push方法保存起来，后期还能拿到原来的
+const originPush = VueRouter.prototype.push;
+
+// 可以大胆的去修改原型的push，让原型的push指向另外一个函数
+VueRouter.prototype.push = function(location, onResolved, onRejected){
+
+    if(onResolved === undefined && onRejected === undefined){
+
+        // 如果没有传后边两个回调函数，就catch一下，就不会出现告警了
+        return originPush.call(this,location).catch(()=>{});
+    }else{
+
+        // 如果传了后边两个回调函数，说明已经将告警处理了
+        return originPush.call(this,location,onResolved,onRejected);
+    }
+
+}
+
+```
+
 
 
 
@@ -1460,3 +1482,8 @@ toSearch(){
 
 用element-ui开发电商管理后台时遇到过一个问题，除了登录页面，其他的请求都是要携带token值的，这个已经在自己封装的axios的拦截器中进行处理过，但是element-ui中的upload组件他自己有自己封装的ajax请求方式，没有用到我自己封装的，所以向后台API发送数据的时候前端看的效果是已经上传成功了，但是查看网络请求的时候并没有成功，返回的状态码是400，无效的token，仔细查看了一下官方文档，提供了header这个属性，可以将自己的定义的请求头加里边，然后就可以了。
 
+## 项目优化
+
+在zekshop项目中，TypeNav组件中需要写很多的a标签，刚开始是用的router-view组件，但是组件特别多，特别耗内存，每个链接都是一个组件，反映在页面上就是当划过这些链接时，会有卡顿现象，所以将router-view改为a标签，然后通过编程式导航进行跳转，这样会流畅很多。
+
+但是编程式导航还不是最好的解决，每个a标签上都添加一个click事件，那么内存中也会放很多的函数，也是比较占内存，所以就通过事件委派的方式给a标签的父元素添加点击事件。
