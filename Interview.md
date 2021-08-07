@@ -1330,7 +1330,26 @@ window.setInterval() 与 window.clearInterval()
 
 <img src="https://www.hualigs.cn/image/6104ffb17f3a4.jpg" style="zoom:50%;" />
 
+### 回调地狱
 
+多层回调函数的相互嵌套，就形成了回调地狱，示例如下：
+
+```js
+let foo = function(){
+    setTimeout(()=>{
+        console.log("setTimeout1");
+        
+        setTimeout(()=>{
+            console.log("setTimeout2");
+        },2000)
+    },1000)
+}
+```
+
+回调地狱的缺点：
+
+- 代码耦合性太强，牵一发而动全身，难以维护
+- 大量冗余的代码相互嵌套，代码的可读性变差
 
 ## 移动端
 
