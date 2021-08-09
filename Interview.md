@@ -945,142 +945,6 @@ for(var i of iter){
 }
 ```
 
-
-
-### Promise
-
-异步问题同步化解决方案
-
-一个异步程序，通过被promise包裹，然后通过promise的then来获取到异步成功程序的结果，同时，promise和其他程序是同步执行，不阻塞其他程序
-
-```js
-//同步
-var p = new Promise((resolve,reject)=>{
-    $.ajax({
-        url:'http://localhost:3000/data.json',
-        success:function(data){
-            resolve(data)
-        }
-    })
-})
-
-    //异步
-    p.then(res=>{
-        console.log(res)
-    })
-
-console.log("hello kerwin")
-
-function getNames(data){
-    return data.map(item=>item.name)
-}
-```
-
-```js
-function getData(){
-    return new Promise((resolve,reject)=>{
-        $.ajax({
-            url:'http://localhost:3000/data.json',
-            success(data){
-                resolve(data)
-            }
-        })
-    })
-}
-
-doSth()
-async function doSth(){
-    var data = await getData()
-    console.log(getNames(data))
-}
-
-console.log("Im kerwin")
-
-function getNames(data){
-    return data.map(item=>item.name)
-}
-```
-
-
-
-一个Promise就代表一个异步任务，这个任务执行的成功与否对应着promise中的一个状态，是resolve还是reject取决于逻辑，异步任务如果执行成功，就通过promise中的resolve将pending状态转为fulfilled状态，如果异步任务失败就执行就从pending转为rejected
-
-特点：1、promise状态不受外界影响；2、固化性：一旦promise状态变化就不可更改
-
-```js
-<script>
-	Promise.resolve().then(function(){
-		console.log('promise1')
-		setTimeout(()=>{
-			console.log('setTimeout2')
-		},0)
-	})
-	
-	setTimeout(()=>{
-		console.log('setTimeout1')
-		Promise.resolve().then(function(){
-			console.log('promise2')
-		})
-	},0)
-</script>
-```
-
-#### Promise.all()
-
-所有的异步任务结束之后才返回
-
-```js
-let p1 = new Promise((resolve,reject)=>{
-	setTimeout(()=>{
-		resolve("p1")
-	},1000)
-})
-let p2 = new Promise((resolve,reject)=>{
-	setTimeout(()=>{
-		resolve("p2")
-	},2000)
-})
-let p3 = new Promise((resolve,reject)=>{
-	setTimeout(()=>{
-		resolve("p3")
-	},3000)
-})
-
-let p4 = Promise.all([p1,p2,p3])	//Promise的静态方法，参数是一个数组
-p4.then(res=>{
-	console.log(res)
-})
-```
-
-#### Promise.race()
-
-竞赛的意思，谁最快，就拿谁的结果
-
-```js
-let p1 = new Promise((resolve,reject)=>{
-	setTimeout(()=>{
-		resolve("p1")
-	},1000)
-})
-let p2 = new Promise((resolve,reject)=>{
-	setTimeout(()=>{
-		reject("p2")
-	},2000)
-})
-let p3 = new Promise((resolve,reject)=>{
-	setTimeout(()=>{
-		resolve("p3")
-	},3000)
-})
-
-let p4 = Promise.race([p1,p2,p3])	//Promise的静态方法，参数是一个数组
-p4.then(res=>{
-	console.log(res)
-})
-```
-
-
-
 ### 状态码
 
 HTTP常用状态码及其含义？ 
@@ -1348,6 +1212,202 @@ let foo = function(){
 
 - 代码耦合性太强，牵一发而动全身，难以维护
 - 大量冗余的代码相互嵌套，代码的可读性变差
+
+如何解决回调地狱？
+
+为了解决回调地狱的问题，ES6（ECMAScript 2015）中新增了**Promise**的概念
+
+### Promise
+
+#### 基本概念
+
+1. Promise是一个构造函数
+   - 我们可以创建Promise的实例 const p = new Promise()
+   - new出来的Promise实例对象，代表一个异步操作
+2. Promise.prototype上包含一个.then()方法
+   - 每一次new Promise()构造函数得到的实例对象，
+   - 都可以通过原型链的方式访问到.then()方法，例如p.then()
+3. .then()方法用来预先指定成功和失败的回调函数
+   - p.then(result=>{},error=>{})
+   - 调用.then()方法时，成功的回调函数是必选的，失败的回调函数是可选的
+
+#### then方法的特性
+
+如果上一个.then方法中返回了一个新的Promise实例对象，则可以通过下一个.then()继续处理。通过.then()方法的链式调用，就解决了回调地狱的问题。
+
+#### 通过.catch捕获错误
+
+在Promise的链式操作中如果发生了错误，可以使用Promise.prototype.catch方法进行捕获和处理
+
+```js
+thenFs.readFile('./1.txt','utf8')
+.then(r1=>{
+    console.log(r1)
+    return thenFs.readFile('./2.txt','utf8');
+})
+.then(r2=>{
+    console.log(r2)
+    return thenFs.readFile('./3.txt','utf8');
+}).catch(err=>{
+    console.log(err.message);
+})
+```
+
+如果不希望前面的错误导致后续的.then无法正常执行，则可以将.catch的调用提前，示例如下：
+
+```js
+thenFs.readFile('./1.txt','utf8')
+.then(r1=>{
+    console.log(r1)
+    return thenFs.readFile('./2.txt','utf8');
+})
+.catch(err=>{
+    console.log(err.message);
+})
+.then(r2=>{
+    console.log(r2)
+    return thenFs.readFile('./3.txt','utf8');
+})
+```
+
+#### Promise.all
+
+Promise.all()方法会发起并行的Promise异步操作，等所有的异步操作全部结束后才会执行下一步的.then操作（等待机制），示例代码如下：
+
+```js
+// 定义一个数组，存放3个读文件的异步操作，都是返回Promise示例对象
+const promiseArr = [
+    thenFs.readFile('./1.txt','utf8'),
+    thenFs.readFile('./2.txt','utf8'),
+    thenFs.readFile('./3.txt','utf8'),
+]
+
+// 将Promise的数组，作为Promise.all()的参数
+Promise.all(promiseArr)
+.then(([r1,r2,r3])=>{
+    console.log(r1,r2,r3);  // 所有文件读取成功
+}).catch(err=>{
+    console.log(err.message);  // 捕获异步操作中的错误
+})
+```
+
+#### Promise.race
+
+Promise.race()方法会发起并行的Promise异步操作，只要任何一个异步操作完成，就立即执行下一步的.then操作（赛跑机制）。示例代码如下：
+
+```js
+// 定义一个数组，存放3个读文件的异步操作，都是返回Promise示例对象
+const promiseArr = [
+    thenFs.readFile('./1.txt','utf8'),
+    thenFs.readFile('./2.txt','utf8'),
+    thenFs.readFile('./3.txt','utf8'),
+]
+
+// 将Promise的数组，作为Promise.all()的参数
+Promise.race(promiseArr)
+.then(result => {
+    console.log(result);  // 所有文件读取成功
+}).catch(err => {
+    console.log(err.message);  // 捕获异步操作中的错误
+})
+```
+
+#### 案例
+
+基于Promise封装读文件的方法
+
+```js
+import fs from "fs"
+
+function getFile(fpath){
+    return new Promise((resolve,reject)=>{
+        fs.readFile(fpath,'utf8',(err,data)=>{
+            if(err) return reject(err);
+            resolve(data);
+        });
+    })
+}
+
+getFile('./1.txt').then(res=>{
+    console.log(res);    
+},err=>{
+    console.log(err);
+});
+```
+
+### async/await
+
+#### 是什么
+
+async/await是ES8（ECMAScript 2017）引入的新语法，用来简化Promise异步操作，在async/await出现之前，开发者只能通过链式.then()的方式处理Promise异步操作，示例代码如下：
+
+```js
+
+thenFs.readFile('./1.txt', 'utf8').then(
+    r1 => {
+        console.log(r1);
+        return thenFs.readFile('./2.txt', 'utf8');
+    }
+).then(r2 => {
+    console.log(r2);
+    return thenFs.readFile('./3.txt','utf8');
+}).then(r3=>{
+    console.log(r3);
+})
+```
+
+.then链式调用的优点：解决了回调地狱的问题
+
+缺点：代码冗余，阅读性差，不易理解
+
+#### 基本使用
+
+如果某个方法的返回值是一个Promise示例对象，那么我们就可以在前面用**await**来进行修饰，修饰完毕之后，这个返回值就不再是Promise示例了，就变成了一个真正的值，需要注意的是：如果方法内部用到了await，那么这个方法必须被**async**来进行修饰
+
+```js
+async function getAllFiles(){
+    const r1 = await thenFs.readFile('./1.txt','utf8');
+    console.log(r1);
+
+    const r2 = await thenFs.readFile('./1.txt','utf8');
+    console.log(r2);
+
+    const r3 = await thenFs.readFile('./1.txt','utf8');
+    console.log(r3);
+}
+```
+
+#### 注意事项
+
+1. 如果在function中使用了await，则function必须被async修饰
+2. 在async方法中，第一个await之前的代码会同步执行，await之后的代码会异步执行
+
+```js
+
+console.log("A");
+
+async function getAllFiles(){
+
+    console.log("B");
+
+    const r1 = await thenFs.readFile('./1.txt','utf8');
+    const r2 = await thenFs.readFile('./1.txt','utf8');
+    const r3 = await thenFs.readFile('./1.txt','utf8');
+
+    console.log(r1,r2,r3);
+
+    console.log("C");
+}
+
+console.log("D");
+
+result:
+A
+B
+D
+111 222 333
+C
+```
 
 
 
