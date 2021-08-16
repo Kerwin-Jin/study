@@ -949,11 +949,39 @@ for(var i of iter){
 
 for循环是js当中最简单的遍历方法，主要是针对数组进行遍历的，效率不高，但是可以使用continue和break
 
-for...in循环主要是用来遍历对象的，（遍历对象的可枚举属性的），效率最低，原因是不但要遍历自身的属性，还要遍历原型
+for...in循环主要是用来遍历对象的，（遍历对象的可枚举属性的），效率最低，原因是不但要遍历自身的属性，还要遍历原型的
 
 forEach是数组的一个方法，主要是用来遍历数组的，效率最高，但是不可以使用continue和break
 
-for...of是es6里面新加的一种遍历方法 ，（前提必须是可迭代对象），效率没有forEach高（比其他的高），也可以使用continue和break，只能针对可迭代对象
+for...of是es6里面新加的一种遍历方法 ，（前提必须是可迭代对象），效率没有forEach高（比其他的高），也可以使用continue和break，缺点：只能针对可迭代对象
+
+
+
+遍历对象最快的方法是也是使用forEach，是把对象属性转化为数组然后进行遍历
+
+Object.keys()是把一个对象转化为一个数组，这个数组当中存储的是这个对象所有的属性
+
+只要看到这样的东西Object.keys()，就是为了让对象可以使用forEach方法来高效的遍历，当然也可以用for...in遍历对象，但是太low，公司中也不用
+
+```js
+<script>
+	var obj = {
+		categoryId1:'苹果',
+		categoryId2:'iPhone',
+		name:undefined
+	}
+	console.log(obj);
+	var keys = Object.keys(obj);
+	keys.forEach(item=>{
+		if(!obj[item]){
+			delete obj[item];
+		}
+	})
+	console.log(obj);
+</script>
+```
+
+
 
 ### 状态码
 

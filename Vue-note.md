@@ -1172,7 +1172,7 @@ kerwin.install = function(Vue,options){
 5. 特别注意：
    - School确实是构造函数，但不是我们亲手写的School，是Vue.extend生成的
    - Vue.extend调用的返回值是VueComponent构造函数，所以new School其实就是在new VueComponent。
-   - 所谓组件实例，就是VueCompoent创建的实例，简称；所有Vue的实例，就是Vue创建的实例，简称vm
+   - 所谓组件实例，就是VueCompoent创建的实例，简称vc；所有Vue的实例，就是Vue创建的实例，简称vm
 6. 一个最最重要的关系
    - VueComponent继承了Vue!!
 
